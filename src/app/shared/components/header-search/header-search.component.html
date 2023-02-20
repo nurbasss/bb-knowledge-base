@@ -1,0 +1,30 @@
+<div class="search">
+  <div class="search__left">
+    <div class="search__icon">
+      <img src="./assets/icons/search.svg" alt="search" />
+    </div>
+    <input
+      type="text"
+      class="search__input"
+      placeholder="Что ищете"
+      [formControl]="searchString"
+      (keyup)="onKeyPress($event)"
+      #searchInput
+      (change)="searchInput.value = searchInput.value.trim()" />
+  </div>
+  <div class="search__button">
+    <p>Найти</p>
+  </div>
+</div>
+<ng-template [ngIf]="searchString.value && showDropdown">
+  <div class="search__dropdown">
+    <ng-template [ngIf]="results.length > 0">
+      <div *ngFor="let item of results" class="search__dropdown-item">
+        <p class="search__text" [innerHTML]="item"></p>
+      </div>
+    </ng-template>
+    <div class="search__dropdown-item" *ngIf="results.length === 0">
+      <p class="search__text">Не найдено</p>
+    </div>
+  </div>
+</ng-template>
