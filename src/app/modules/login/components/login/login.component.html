@@ -1,0 +1,50 @@
+<div class="login__wrapper">
+  <ng-template [ngIf]="!isRegister">
+    <div class="login">
+      <h2 class="login__header">Войти</h2>
+      <div class="form-floating mb-4">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingUsername"
+          placeholder="Имя пользователя" />
+        <label for="floatingUserName">Имя пользователя</label>
+      </div>
+      <div class="form-floating mb-4">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Пароль" />
+        <label for="floatingUserName">Пароль</label>
+      </div>
+      <div class="login__secondary mb-4">
+        <p>Забыли пароль?</p>
+      </div>
+      <button class="_btn btn-success" (click)="login()">Продолжить</button>
+    </div>
+  </ng-template>
+  <ng-template [ngIf]="isRegister">
+    <div class="login">
+      <h2 class="login__header">Регистрация</h2>
+      <div class="form-floating mb-4">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingUsername"
+          placeholder="Имя пользователя" />
+        <label for="floatingUserName">Имя пользователя</label>
+      </div>
+      <div class="form-floating mb-4">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Пароль" />
+        <label for="floatingUserName">Пароль</label>
+      </div>
+      <button class="_btn btn-success" (click)="login()">Продолжить</button>
+    </div>
+  </ng-template>
+</div>
+<div class="login__bg"></div>

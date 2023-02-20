@@ -1,0 +1,44 @@
+@import 'src/styles/variables.scss';
+.login {
+  width: 544px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  z-index: 2;
+
+  &__wrapper {
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__header {
+    font-weight: $font-weight-medium-bold;
+    font-size: $font-size-h1-large;
+    text-align: center;
+    color: $color-black;
+    margin-bottom: 32px;
+  }
+
+  &__bg {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 214px;
+    height: 170px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url('../../../../../assets/illustrations/login_search.svg');
+  }
+
+  &__secondary {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    p {
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      color: $color-gray;
+    }
+  }
+}

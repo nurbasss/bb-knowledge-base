@@ -1,0 +1,42 @@
+<ng-template [ngIf]="!isLoggedIn">
+  <div class="header header-login">
+    <div class="header__logo">
+      <img src="./assets/icons/logo_min.svg" alt="logo" />
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="isLoggedIn">
+  <div class="header header-logged">
+    <div class="header__top">
+      <div class="header__top-left">
+        <div class="header__logo">
+          <img src="./assets/icons/logo.svg" alt="logo" />
+        </div>
+        <bb-header-search></bb-header-search>
+      </div>
+      <div class="header__top-right">
+        <div class="header__top-item">
+          <img
+            class="header__icon"
+            src="./assets/icons/plus.svg"
+            alt="create" />
+          <p>Создать</p>
+        </div>
+        <div class="header__top-item">
+          <img
+            class="header__icon"
+            src="./assets/icons/bell.svg"
+            alt="notifications" />
+        </div>
+        <div class="header__top-item">
+          <img
+            class="header__icon"
+            src="./assets/icons/profile.svg"
+            alt="profile" />
+          <p>Serik Berik</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
