@@ -1,0 +1,22 @@
+.form-control {
+  font-size: $font-size-medium;
+  font-weight: $font-weight-medium;
+  color: $color-black;
+  border-style: solid;
+  border-radius: 12px;
+  transition: all 0.3s;
+  outline-color: $color-green;
+
+  &:active,
+  &:focus {
+    box-shadow: none !important;
+    border-color: $color-green;
+    outline: 1px solid $color-green;
+  }
+}
+
+.form-floating > label {
+  font-size: $font-size-medium;
+  font-weight: $font-weight-medium;
+  color: $color-gray-dark;
+}
