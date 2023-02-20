@@ -1,0 +1,27 @@
+._btn {
+  display: block;
+  width: 100%;
+  padding: 1px 24px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: $font-size-small;
+
+  &,
+  &:focus,
+  &.focus,
+  &:active,
+  &:active:focus,
+  &:active.focus,
+  &.active:focus,
+  &.active.focus {
+    outline: 0;
+  }
+}
+
+.btn-success {
+  background-color: $color-green;
+  color: #fff;
+  height: 56px;
+  font-size: $font-size-medium;
+}
