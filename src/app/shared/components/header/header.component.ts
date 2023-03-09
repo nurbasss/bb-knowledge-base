@@ -1,6 +1,7 @@
 import { SubscriptionAccumulator } from '@core/helper/SubscriptionAccumulator';
 import { LoginService } from '@core/services/login.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'bb-header',
@@ -12,7 +13,8 @@ export class HeaderComponent extends SubscriptionAccumulator implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private changeDetector: ChangeDetectorRef
+    private changeDetector: ChangeDetectorRef,
+    private router: Router
   ) {
     super();
   }
@@ -24,5 +26,21 @@ export class HeaderComponent extends SubscriptionAccumulator implements OnInit {
         this.changeDetector.detectChanges();
       })
     );
+  }
+
+  navigateTo(type: string) {
+    switch (type) {
+      case 'category':
+        this.router.navigate(['/categories/create/category']);
+        break;
+      case 'subcategory':
+        this.router.navigate(['/categories/create/subcategory']);
+        break;
+      case 'home':
+        this.router.navigate(['/home']);
+        break;
+      default:
+        break;
+    }
   }
 }

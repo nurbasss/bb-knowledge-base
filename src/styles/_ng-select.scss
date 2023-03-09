@@ -1,0 +1,40 @@
+@import './variables.scss';
+
+.ng-select {
+  &.base-select {
+    .ng-select-container {
+      min-height: 56px;
+      border-radius: 12px;
+
+      .ng-value-container .ng-input {
+        top: 16px;
+      }
+    }
+
+    &.ng-select-multiple
+      .ng-select-container
+      .ng-value-container
+      .ng-placeholder {
+      top: 16px;
+    }
+    &.ng-select-focused {
+      .ng-select-container {
+        border-color: $color-green;
+        outline: 1px solid $color-green;
+      }
+    }
+    &.ng-select-opened.ng-select-bottom > .ng-select-container {
+      border-radius: 12px;
+    }
+  }
+}
+
+.ng-dropdown-panel {
+  .ng-dropdown-panel-items {
+    border-radius: 12px;
+  }
+  &.ng-select-bottom {
+    margin-top: 4px;
+    border-radius: 12px;
+  }
+}

@@ -1,0 +1,28 @@
+@import 'src/styles/variables.scss';
+
+.create-category {
+  &__title {
+    font-size: $font-size-h3-large;
+    font-weight: $font-weight-bold;
+    color: $color-black;
+    letter-spacing: 0.02em;
+  }
+
+  &__subtitle {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium-bold;
+    color: rgba(21, 37, 54, 0.8);
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+  }
+  &__footer {
+    margin-top: 40px;
+    display: flex;
+    justify-content: flex-end;
+
+    .create-btn {
+      height: 40px;
+      width: auto;
+    }
+  }
+}

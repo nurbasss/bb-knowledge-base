@@ -1,0 +1,71 @@
+<div class="container-wrapper">
+  <div class="create-category" [formGroup]="form">
+    <div class="create-category__title mb_24">{{ getTitle() }}</div>
+    <div class="row mb_24">
+      <div class="col-6">
+        <p class="create-category__subtitle">Пользователи</p>
+        <input
+          type="text"
+          class="form-control base-input"
+          id="floatingUsername"
+          formControlName="users" />
+      </div>
+      <div class="col-6" *ngIf="type === 'subcategory'">
+        <p class="create-category__subtitle">Категория</p>
+        <ng-select
+          formControlName="category"
+          placeholder="Выберите категорию"
+          class="base-select"
+          dropdownPosition="bottom"
+          notFoundText="Не найдено"
+          [searchable]="true">
+          <ng-option
+            *ngFor="let category of categories"
+            [value]="category.name">
+            {{ category.name }}
+          </ng-option>
+        </ng-select>
+      </div>
+    </div>
+    <div class="row mb_24">
+      <div class="col-6">
+        <p class="create-category__subtitle">Название</p>
+        <input
+          type="text"
+          class="form-control base-input"
+          placeholder="Введите название"
+          id="floatingUsername"
+          formControlName="name" />
+      </div>
+      <div class="col-6">
+        <p class="create-category__subtitle">Тэги</p>
+        <ng-select
+          formControlName="tags"
+          placeholder="Выберите тэги"
+          class="base-select"
+          dropdownPosition="bottom"
+          notFoundText="Не найдено"
+          [searchable]="true"
+          [multiple]="true"
+          addTagText="Добавить новый"
+          [items]="tags"
+          bindLabel="name"
+          [addTag]="addNewTag">
+        </ng-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <p class="create-category__subtitle">Описание (необязательно)</p>
+        <textarea
+          formControlName="description"
+          class="form-control base-input"
+          id=""
+          rows="3"></textarea>
+      </div>
+    </div>
+    <div class="create-category__footer">
+      <button class="_btn btn-success create-btn">Создать</button>
+    </div>
+  </div>
+</div>

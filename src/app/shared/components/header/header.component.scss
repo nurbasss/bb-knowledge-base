@@ -68,6 +68,13 @@
   height: 100%;
 }
 
+.dropdown-toggle::after {
+  display: none;
+}
+.dropdown-menu.show {
+  margin-top: 8px !important;
+}
+
 @media screen and (max-width: 1120px) {
   .header__top {
     box-sizing: border-box;
