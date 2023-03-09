@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class LoginService {
-  authorized = new BehaviorSubject<boolean>(false);
+  authorized = new BehaviorSubject<boolean>(true);
   isAuthorized: Observable<boolean> = this.authorized.asObservable();
 
   constructor() {}

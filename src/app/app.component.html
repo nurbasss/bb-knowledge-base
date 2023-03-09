@@ -1,4 +1,13 @@
 <bb-header></bb-header>
 <div class="section-container">
-  <router-outlet></router-outlet>
+  <div class="row">
+    <ng-template [ngIf]="helperService.isShowLeftBar()">
+      <div class="col-3">
+        <bb-left-bar></bb-left-bar>
+      </div>
+    </ng-template>
+    <div [ngClass]="helperService.isShowLeftBar() ? 'col-9' : 'col-12'">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

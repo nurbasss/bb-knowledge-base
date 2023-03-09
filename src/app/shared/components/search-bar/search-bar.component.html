@@ -1,0 +1,49 @@
+<div class="search">
+  <div class="search__header">
+    <h3 class="search__title">Поиск</h3>
+    <div class="search__filter">
+      <span class="search__filter-icon">
+        <img src="./assets/icons/filter.svg" alt="" />
+      </span>
+      <p class="search__text search__text-gray">фильтры</p>
+    </div>
+  </div>
+  <div class="search__input-wrapper" [ngClass]="{ 'border-green': isFocused }">
+    <div class="search__input-icon">
+      <img src="./assets/icons/search_large.svg" alt="" />
+    </div>
+    <input
+      class="search__input"
+      type="text"
+      [formControl]="searchString"
+      placeholder="Введите для поиска"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      #search
+      (change)="search.value = search.value.trim()" />
+    <div
+      class="search__input-icon"
+      [ngClass]="{ 'display-none': !searchString.value }"
+      (click)="cleanInput()">
+      <img src="./assets/icons/delete.svg" alt="" />
+    </div>
+  </div>
+  <div class="search-result">
+    <p class="search-result__title mb_24">История поиска</p>
+    <ng-container *ngFor="let result of searchResults; let ind = index">
+      <div class="search-item">
+        <bb-search-result
+          [color]="getColor(ind)"
+          [title]="result.title"
+          [text]="result.text"
+          [rightText]="'1 минуту назад'"></bb-search-result>
+      </div>
+    </ng-container>
+    <div class="search-result__more">
+      <p class="search-result__title">Показать все</p>
+      <span class="icon-arrow"
+        ><img src="./assets/icons/arrow_right_stroke.svg" alt=""
+      /></span>
+    </div>
+  </div>
+</div>

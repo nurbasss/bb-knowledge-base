@@ -1,0 +1,27 @@
+<div class="left-bar">
+  <h2 class="left-bar__title">Категории</h2>
+  <div class="left-bar__item" *ngFor="let category of categoryList">
+    <div
+      class="left-bar__main"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!category.toggle"
+      aria-controls="collapseExample">
+      <span
+        class="left-bar__icon"
+        [ngClass]="{ 'left-bar__icon-top': category.toggle }">
+        <img src="./assets/icons/arrow_down.svg" alt="arrow" />
+      </span>
+      <p>{{ category.name }}</p>
+    </div>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="category.toggle">
+      <div
+        class="left-bar__secondary"
+        *ngFor="let sub of category.subCategories">
+        <span class="left-bar__icon">
+          <img src="./assets/icons/arrow_down.svg" alt="arrow" />
+        </span>
+        <p>{{ sub.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>

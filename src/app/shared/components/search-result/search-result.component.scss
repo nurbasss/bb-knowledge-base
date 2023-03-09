@@ -1,0 +1,36 @@
+@import 'src/styles/variables.scss';
+
+.search-result {
+  padding: 10px;
+  background-color: $color-gray-main;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-radius: 12px;
+
+  &-filled {
+    height: 50px;
+    width: 120px;
+    border-radius: 12px;
+  }
+
+  &__title {
+    flex: 1;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
+    color: $color-black;
+    letter-spacing: 0.02;
+  }
+
+  &__text {
+    font-size: $font-size-extra-small;
+    font-weight: $font-weight-thin;
+    color: $color-black;
+    letter-spacing: 0.02;
+
+    &.right {
+      text-align: end;
+      padding-right: 12px;
+    }
+  }
+}
