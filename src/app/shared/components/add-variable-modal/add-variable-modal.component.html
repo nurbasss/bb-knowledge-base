@@ -1,0 +1,72 @@
+<div class="modal-header">
+  <h4 class="modal__title">Создание переменной</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="close()"></button>
+</div>
+<div class="modal-body" [formGroup]="form">
+  <div class="row">
+    <div class="col-6 mb_24">
+      <p class="modal__subtitle">Наименование</p>
+      <input
+        type="text"
+        [autocomplete]="false"
+        class="form-control base-input"
+        placeholder="Введите наименование"
+        id="name"
+        formControlName="name" />
+    </div>
+    <div class="col-6 mb_24">
+      <p class="modal__subtitle">Категория</p>
+      <ng-select
+        formControlName="category"
+        placeholder="Выберите категорию"
+        class="base-select"
+        dropdownPosition="bottom"
+        notFoundText="Не найдено"
+        [searchable]="true">
+        <ng-option *ngFor="let category of categories" [value]="category.name">
+          {{ category.name }}
+        </ng-option>
+      </ng-select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 mb_24">
+      <p class="modal__subtitle">Значение</p>
+      <input
+        type="text"
+        [autocomplete]="false"
+        class="form-control base-input"
+        placeholder="Введите значение"
+        id="varValue"
+        formControlName="varValue" />
+    </div>
+    <div class="col-6 mb_24">
+      <p class="modal__subtitle">Подкатегория</p>
+      <ng-select
+        formControlName="subcategory"
+        placeholder="Выберите подкатегорию"
+        class="base-select"
+        dropdownPosition="bottom"
+        notFoundText="Не найдено"
+        [searchable]="true">
+        <ng-option
+          *ngFor="let subcategory of subcategories"
+          [value]="subcategory.name">
+          {{ subcategory.name }}
+        </ng-option>
+      </ng-select>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="_btn btn-success variable-button"
+    (click)="createVariable()">
+    Создать
+  </button>
+</div>

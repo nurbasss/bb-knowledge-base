@@ -12,11 +12,12 @@
       #searchInput
       (change)="searchInput.value = searchInput.value.trim()" />
   </div>
-  <div class="search__button">
+  <div class="search__button" (click)="navigateTo('home/search')">
     <p>Найти</p>
   </div>
 </div>
-<ng-template [ngIf]="searchString.value && showDropdown">
+<ng-template
+  [ngIf]="searchString.value && helperService.isShowSearchDropdown | async">
   <div class="search__dropdown">
     <ng-template [ngIf]="results.length > 0">
       <div *ngFor="let item of results" class="search__dropdown-item">

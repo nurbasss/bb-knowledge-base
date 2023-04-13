@@ -1,3 +1,4 @@
+import { HelperService } from './../../../core/services/helper.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,9 +12,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 export class HeaderSearchComponent implements OnInit {
   public searchString = new FormControl();
   public results: any[] = [];
-  public showDropdown: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public helperService: HelperService) {}
   ngOnInit(): void {
     this.subscribeSearch();
   }
@@ -23,6 +23,7 @@ export class HeaderSearchComponent implements OnInit {
       if (this.results.length === 1) {
         this.navigateTo(this.results[0]?.route);
       } else {
+        this.helperService.searchString.next(this.searchString.value);
         this.navigateTo('home/search');
       }
     }
@@ -36,7 +37,7 @@ export class HeaderSearchComponent implements OnInit {
     this.searchString.valueChanges
       .pipe(debounceTime(800), distinctUntilChanged())
       .subscribe((val: string) => {
-        this.showDropdown = true;
+        this.helperService.showSearchDropdown.next(true);
       });
   }
 }

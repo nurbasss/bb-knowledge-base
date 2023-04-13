@@ -1,0 +1,49 @@
+<div class="container-wrapper" [formGroup]="form">
+  <div class="create-post">
+    <p class="create-post__title">Создать пост</p>
+    <div>
+      <button
+        id="choose"
+        (click)="openChooseVariableModal()"
+        style="display: none"></button>
+      <button
+        id="add"
+        (click)="openAddVariableModal()"
+        style="display: none"></button>
+      <p class="create-post__subtitle">Детали поста</p>
+      <div class="col-12 mb_16">
+        <div class="form-floating">
+          <input
+            type="text"
+            class="form-control base-input"
+            id="postName"
+            placeholder="Название" />
+          <label for="postName">Название</label>
+        </div>
+      </div>
+      <div class="col-12 mb_32">
+        <ng-select
+          formControlName="postTags"
+          placeholder="Выберите тэги"
+          class="base-select"
+          dropdownPosition="bottom"
+          notFoundText="Не найдено"
+          [searchable]="true"
+          [multiple]="true"
+          addTagText="Добавить новый"
+          [items]="tags"
+          bindLabel="name"
+          [addTag]="addNewTag">
+        </ng-select>
+      </div>
+    </div>
+  </div>
+  <p class="create-post__subtitle">Текст поста</p>
+  <div class="create-post__editor">
+    <editor
+      apiKey="jk8cihs8koq4u4ir3ja4r0so6wihe0qlqyazbw4wxp5tzlvm"
+      initialValue=""
+      formControlName="editorContent"
+      [init]="init"></editor>
+  </div>
+</div>

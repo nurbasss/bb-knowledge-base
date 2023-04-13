@@ -8,6 +8,9 @@ import { LeftBarComponent } from './components/left-bar/left-bar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
+import { VariableModalComponent } from './components/variable-modal/variable-modal.component';
+import { RadioBtnComponent } from './components/radio-btn/radio-btn.component';
+import { AddVariableModalComponent } from './components/add-variable-modal/add-variable-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,9 @@ import { SearchResultComponent } from './components/search-result/search-result.
     LeftBarComponent,
     SearchBarComponent,
     SearchResultComponent,
+    VariableModalComponent,
+    RadioBtnComponent,
+    AddVariableModalComponent,
   ],
   imports: [
     CommonModule,

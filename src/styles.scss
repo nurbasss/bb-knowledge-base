@@ -8,7 +8,6 @@
 @import './styles/forms';
 @import './styles/ng-select';
 @import '~@ng-select/ng-select/themes/default.theme.css';
-
 * {
   margin: 0;
   padding: 0;
@@ -44,4 +43,22 @@ ol {
   &_24 {
     margin-bottom: 24px;
   }
+
+  &_16 {
+    margin-bottom: 16px;
+  }
+
+  &_32 {
+    margin-bottom: 32px;
+  }
+}
+
+.mw {
+  &-740 {
+    max-width: 740px;
+  }
+}
+
+.modal-content {
+  border-radius: 12px;
 }

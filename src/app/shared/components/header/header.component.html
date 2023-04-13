@@ -13,7 +13,9 @@
         <div class="header__logo" (click)="navigateTo('home')">
           <img src="./assets/icons/logo.svg" alt="logo" />
         </div>
-        <bb-header-search></bb-header-search>
+        <ng-template [ngIf]="showSearch">
+          <bb-header-search></bb-header-search>
+        </ng-template>
       </div>
       <div class="header__top-right">
         <div ngbDropdown>
@@ -35,7 +37,9 @@
             <button ngbDropdownItem (click)="navigateTo('subcategory')">
               Создать подкатегорию
             </button>
-            <button ngbDropdownItem>Создать пост</button>
+            <button ngbDropdownItem (click)="navigateTo('article')">
+              Создать пост
+            </button>
           </div>
         </div>
 

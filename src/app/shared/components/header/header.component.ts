@@ -1,7 +1,8 @@
 import { SubscriptionAccumulator } from '@core/helper/SubscriptionAccumulator';
 import { LoginService } from '@core/services/login.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'bb-header',
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent extends SubscriptionAccumulator implements OnInit {
   public isLoggedIn: boolean = false;
+  public showSearch: boolean = false;
 
   constructor(
     private loginService: LoginService,
@@ -26,6 +28,18 @@ export class HeaderComponent extends SubscriptionAccumulator implements OnInit {
         this.changeDetector.detectChanges();
       })
     );
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe((event: any) => {
+        const path = event?.url.split('/');
+        path.shift();
+        if (path[0] === 'home' && (path.length === 1 || path[1] === 'search')) {
+          this.showSearch = false;
+        } else {
+          this.showSearch = true;
+        }
+        this.changeDetector.detectChanges();
+      });
   }
 
   navigateTo(type: string) {
@@ -35,6 +49,9 @@ export class HeaderComponent extends SubscriptionAccumulator implements OnInit {
         break;
       case 'subcategory':
         this.router.navigate(['/categories/create/subcategory']);
+        break;
+      case 'article':
+        this.router.navigate(['/categories/article/create']);
         break;
       case 'home':
         this.router.navigate(['/home']);

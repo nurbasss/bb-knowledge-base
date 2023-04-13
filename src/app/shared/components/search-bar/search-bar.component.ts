@@ -1,3 +1,5 @@
+import { HelperService } from './../../../core/services/helper.service';
+import { SubscriptionAccumulator } from '@core/helper/SubscriptionAccumulator';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { generateRandomColor } from '@app/core/helper';
@@ -7,7 +9,10 @@ import { generateRandomColor } from '@app/core/helper';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss'],
 })
-export class SearchBarComponent implements OnInit {
+export class SearchBarComponent
+  extends SubscriptionAccumulator
+  implements OnInit
+{
   public searchString: FormControl;
   searchResults: any[] = [
     {
@@ -25,11 +30,22 @@ export class SearchBarComponent implements OnInit {
   ];
   public isFocused: boolean = false;
 
-  constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(
+    private changeDetector: ChangeDetectorRef,
+    private helperService: HelperService
+  ) {
+    super();
     this.searchString = new FormControl();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.addSubscriber(
+      this.helperService.searchString.subscribe((data: string) => {
+        this.searchString.setValue(data);
+        this.changeDetector.detectChanges();
+      })
+    );
+  }
 
   cleanInput() {
     this.searchString.setValue('');

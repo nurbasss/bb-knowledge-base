@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h4 class="modal-title">Выбор переменной</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <div class="search">
+    <div class="search__left">
+      <div class="search__icon">
+        <img src="./assets/icons/search.svg" alt="search" />
+      </div>
+      <input
+        type="text"
+        class="search__input"
+        placeholder="Поиск"
+        [formControl]="searchString"
+        (keyup)="onKeyPress($event)"
+        #searchInput
+        (change)="searchInput.value = searchInput.value.trim()" />
+    </div>
+  </div>
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Категория</th>
+          <th scope="col">Подкатегория</th>
+          <th scope="col">Наименование</th>
+          <th scope="col">Значение</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let variable of variablesList; index as i">
+          <th scope="row">
+            <!-- <bb-radio-btn [checked]="false"></bb-radio-btn> -->
+            <input
+              type="radio"
+              name="nems"
+              [id]="i"
+              (click)="selectVar(variable)" />
+          </th>
+          <td>
+            {{ variable.category }}
+          </td>
+          <td>{{ variable.subcategory }}</td>
+          <td>{{ variable.name }}</td>
+          <td>{{ variable.value }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    type="button"
+    class="_btn btn-success variable-button"
+    (click)="sendSelected()">
+    Выбор
+  </button>
+</div>

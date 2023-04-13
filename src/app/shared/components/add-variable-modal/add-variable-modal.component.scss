@@ -1,0 +1,35 @@
+@import '/src/styles/variables.scss';
+
+.modal {
+  &-header {
+    border-bottom: none;
+    padding: 24px;
+  }
+
+  &-body {
+    padding: 24px 24px 24px 24px;
+    margin-bottom: 32px;
+  }
+
+  &__title {
+    font-size: $font-size-h3-large;
+    font-weight: $font-weight-medium-bold;
+    color: $color-black;
+    letter-spacing: 0.02em;
+  }
+
+  &__subtitle {
+    font-size: $font-size-h4-large;
+    font-weight: $font-weight-medium-bold;
+    color: $color-black;
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+  }
+}
+
+.variable {
+  &-button {
+    max-width: 120px;
+    height: 40px;
+  }
+}

@@ -1,0 +1,19 @@
+@import 'src/styles/variables.scss';
+
+.create-post {
+  &__title {
+    font-size: $font-size-h3-large;
+    font-weight: $font-weight-bold;
+    color: $color-black;
+    letter-spacing: 0.02em;
+    margin-bottom: 32px;
+  }
+
+  &__subtitle {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium-bold;
+    color: rgba(21, 37, 54, 0.8);
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+  }
+}
