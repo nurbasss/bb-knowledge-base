@@ -51,36 +51,20 @@ export class CreatePostComponent implements OnInit {
   init = {
     content_style: '.variable { background-color: yellow; }',
     height: 500,
-    menubar: false,
+    menubar: 'file edit view insert format tools table help',
     plugins: [
       'noneditable',
-      'advlist autolink lists link image charmap print preview anchor',
-      'searchreplace visualblocks code fullscreen',
-      'insertdatetime media table paste code help wordcount',
+      'table',
+      'image',
+      'link',
+      'advlist autolink lists imagetools charmap print preview hr anchor pagebreak code',
     ],
     toolbar:
-      'undo redo | formatselect | bold italic | \
-    alignleft aligncenter alignright alignjustify | \
-    bullist numlist outdent indent | removeformat | help | chooseVariableButton | addVariableButton',
-    // table_default_attributes: {
-    //   style: 'border-collapse: collapse; width: 100%;',
-    // },
+      'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | link | image | chooseVariableButton | addVariableButton |',
     setup: (editor: any) => {
-      // editor.ui.registry.addButton('table', {
-      //   icon: 'table',
-      //   tooltip: 'Insert table',
-      //   onAction: () => {
-      //     editor.execCommand(
-      //       'mceInsertContent',
-      //       false,
-      //       '<table style="border-collapse: collapse; width: 100%;"><tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody></table>'
-      //     );
-      //   },
-      // });
       editor.ui.registry.addButton('chooseVariableButton', {
         text: 'Добавить переменную',
         onAction: () => {
-          // setTimeout(() => {
           this.showChooseVariableModal$.next(true);
           this.dataToInsert.next('');
           if (this.dataToInsertSubscription) {
@@ -91,14 +75,11 @@ export class CreatePostComponent implements OnInit {
               editor.insertContent(value);
             }
           });
-          // }, 2000);
-          //this.showModal$.next(true);
         },
       });
       editor.ui.registry.addButton('addVariableButton', {
         text: 'Создать переменную',
         onAction: () => {
-          // setTimeout(() => {
           this.showAddVariableModal$.next(true);
           this.dataToInsert.next('');
           if (this.dataToInsertSubscription) {
@@ -109,31 +90,8 @@ export class CreatePostComponent implements OnInit {
               editor.insertContent(value);
             }
           });
-          // }, 2000);
-          //this.showModal$.next(true);
         },
       });
-      // editor.ui.registry.addTableMenuItem('customTableMenuItem', {
-      //   text: 'Custom Table Properties',
-      //   onAction: () => {
-      //     editor.execCommand(
-      //       'mceInsertContent',
-      //       false,
-      //       '<table style="border-collapse: collapse; width: 100%;"><tbody><tr><td>Cell 1</td><td>Cell 2</td></tr><tr><td>Cell 3</td><td>Cell 4</td></tr></tbody></table>'
-      //     );
-      //   },
-      // });
-      // editor.ui.registry.addMenuItem('customTableMenuItem', {
-      //   icon: 'table',
-      //   text: 'Custom Table Properties',
-      //   context: 'table',
-      //   prependToContext: true,
-      // });
-      // editor.on('init', () => {
-      //   editor.setContent(
-      //     '<table style="border-collapse: collapse; width: 100%;"><tbody><tr><td>Cell 1</td><td>Cell 2</td></tr><tr><td>Cell 3</td><td>Cell 4</td></tr></tbody></table>'
-      //   );
-      // });
     },
   };
 
