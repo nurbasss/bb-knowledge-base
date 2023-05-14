@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { VariableService } from '@app/core/services/variable.service';
+import { Variable } from '@app/data/models/variable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -8,44 +10,23 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
   templateUrl: './variable-modal.component.html',
   styleUrls: ['./variable-modal.component.scss'],
 })
-export class VariableModalComponent {
-  public variablesList: any[] = [
-    {
-      category: 'Депозит',
-      subcategory: 'Депозит Физ. лиц',
-      name: 'Остаток KZT',
-      value: '1000',
-    },
-    {
-      category: 'Переводы',
-      subcategory: 'Переводы Физ. лиц',
-      name: 'Лимит для переводов',
-      value: '100000000',
-    },
-    {
-      category: 'Депозит',
-      subcategory: 'Депозит Физ. лиц',
-      name: 'Остаток USD',
-      value: '5',
-    },
-    {
-      category: 'Кредит',
-      subcategory: 'Кредит Физ. лиц',
-      name: 'Процентная ставка',
-      value: '14,1%',
-    },
-    {
-      category: 'Карта',
-      subcategory: 'Карты Физ. лиц',
-      name: 'Лимит на количество',
-      value: '6',
-    },
-  ];
-
+export class VariableModalComponent implements OnInit {
+  public variablesList: Variable[] = [];
   public searchString = new FormControl();
   public selectedVariable: any;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(
+    public activeModal: NgbActiveModal,
+    public variableService: VariableService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.variableService.variablesList$.subscribe((data: Variable[]) => {
+      this.variablesList = data;
+      this.changeDetector.detectChanges();
+    });
+  }
 
   close() {
     this.activeModal.close();

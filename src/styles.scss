@@ -8,6 +8,8 @@
 @import './styles/forms';
 @import './styles/ng-select';
 @import '~@ng-select/ng-select/themes/default.theme.css';
+@import 'ngx-toastr/toastr';
+
 * {
   margin: 0;
   padding: 0;
@@ -61,4 +63,23 @@ ol {
 
 .modal-content {
   border-radius: 12px;
+}
+
+.toast-container {
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 8px !important;
+  box-shadow: -5px 8px 16px 0px rgba(0, 0, 0, 0.3) !important;
+  margin-bottom: 2px !important;
+}
+
+.toast-container .toast {
+  margin: 2px !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.toast-top-right {
+  top: 24px;
+  right: 24px;
 }

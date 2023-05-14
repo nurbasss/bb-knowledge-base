@@ -1,0 +1,106 @@
+<div class="container-wrapper">
+  <div class="list">
+    <div class="list-header">
+      <!-- <p>{{ formatDate(category?.updated_at) }}</p> -->
+      <div class="list-header__left pointer" (click)="navigateBack()">
+        <span>
+          <img src="./assets/icons/arrow_left_green.svg" alt="" />
+        </span>
+        {{
+          type === 'subcategory'
+            ? categoryService.getCategoryById(category?.category_id)?.title
+            : 'Главная'
+        }}
+      </div>
+      <div class="list-header__right">
+        <div class="pointer" (click)="navigateEdit()">
+          <span>
+            <img src="./assets/icons/edit_green.svg" alt="" />
+          </span>
+          Изменить
+        </div>
+        <div class="pointer">
+          <span>
+            <img src="./assets/icons/delete_urn_green.svg" alt="" />
+          </span>
+          Удалить
+        </div>
+      </div>
+    </div>
+    <div class="list-body">
+      <h3 class="list-title">{{ category?.title }}</h3>
+      <div class="list-wrapper">
+        <ng-template [ngIf]="type === 'category'">
+          <ng-template [ngIf]="category?.sub_categories?.length">
+            <div
+              class="list-item"
+              *ngFor="let item of category?.sub_categories; let i = index">
+              <div
+                class="list-item__filled"
+                [ngStyle]="{ backgroundColor: getColor(i) }"></div>
+              <div class="list-item__body">
+                <div class="list-item__header">
+                  <div
+                    class="list-item__text hover"
+                    (click)="navigateSubcategory(item)">
+                    {{ item?.title }}
+                  </div>
+                  <div class="list-item__time">
+                    {{ formatDate(item?.updated_at) }}
+                  </div>
+                </div>
+                <div class="list-item__description">
+                  {{ item?.description }}
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template [ngIf]="!category?.sub_categories?.length">
+            <div class="list-not-found">
+              <p class="title">Подкатегории не найдены</p>
+              <div class="add-new" (click)="navigateForm('subcategory')">
+                Добавить новую
+              </div>
+            </div>
+          </ng-template>
+        </ng-template>
+        <ng-template [ngIf]="type === 'subcategory'">
+          <bb-loader [loading]="isSubcategoryLoading">
+            <ng-template [ngIf]="category?.posts?.length">
+              <div
+                class="list-item"
+                *ngFor="let item of category?.posts; let i = index">
+                <div
+                  class="list-item__filled"
+                  [ngStyle]="{ backgroundColor: getColor(i) }"></div>
+                <div class="list-item__body">
+                  <div class="list-item__header">
+                    <div
+                      class="list-item__text hover"
+                      (click)="navigatePost(item?.id)">
+                      {{ item?.title }}
+                    </div>
+                    <div class="list-item__time">
+                      {{ formatDate(item?.updated_at) }}
+                    </div>
+                  </div>
+                  <div class="list-item__description">
+                    {{ item?.description }}
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template [ngIf]="!category?.posts?.length">
+              <div class="list-not-found">
+                <p class="title">Посты не найдены</p>
+                <div class="add-new" (click)="navigateForm('post')">
+                  Добавить новую
+                </div>
+              </div>
+            </ng-template>
+          </bb-loader>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

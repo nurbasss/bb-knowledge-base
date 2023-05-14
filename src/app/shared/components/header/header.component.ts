@@ -3,6 +3,10 @@ import { LoginService } from '@core/services/login.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { User } from '@app/data/models/user';
+import { warningMessage } from '@app/core/helper';
+import { ToastrService } from 'ngx-toastr';
+import { CategoryService } from '@app/core/services/category.service';
 
 @Component({
   selector: 'bb-header',
@@ -12,20 +16,29 @@ import { filter } from 'rxjs';
 export class HeaderComponent extends SubscriptionAccumulator implements OnInit {
   public isLoggedIn: boolean = false;
   public showSearch: boolean = false;
+  public user: User;
 
   constructor(
-    private loginService: LoginService,
+    public loginService: LoginService,
     private changeDetector: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService,
+    private categoryService: CategoryService
   ) {
     super();
   }
 
   ngOnInit(): void {
+    if (!this.loginService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+    }
     this.addSubscriber(
-      this.loginService.isAuthorized.subscribe(data => {
-        this.isLoggedIn = data;
+      this.loginService.currentUser$.subscribe((data: User) => {
+        this.user = data;
         this.changeDetector.detectChanges();
+        if (this.user) {
+          this.categoryService.getCategoryList();
+        }
       })
     );
     this.router.events
@@ -59,5 +72,13 @@ export class HeaderComponent extends SubscriptionAccumulator implements OnInit {
       default:
         break;
     }
+  }
+
+  openToastr() {
+    warningMessage('Пока что не готово', this.toastr);
+  }
+
+  logout() {
+    this.loginService.logout();
   }
 }

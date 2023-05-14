@@ -16,10 +16,15 @@ export class HelperService {
   isShowLeftBar(): boolean {
     let url = this.router.url;
     if (
+      !url ||
+      url === '/' ||
       url.includes('login') ||
       url.includes('categories/create') ||
+      url.includes('categories/edit') ||
       url.includes('home/search') ||
-      url.includes('article/create')
+      url.includes('article/create') ||
+      url.includes('article/edit') ||
+      url.includes('posts')
     ) {
       return false;
     }

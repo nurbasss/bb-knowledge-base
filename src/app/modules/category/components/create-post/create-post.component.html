@@ -16,9 +16,47 @@
           <input
             type="text"
             class="form-control base-input"
-            id="postName"
+            id="title"
+            formControlName="title"
             placeholder="Название" />
           <label for="postName">Название</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6 mb_24">
+          <p class="modal__subtitle">Категория</p>
+          <ng-select
+            formControlName="category"
+            placeholder="Выберите категорию"
+            class="base-select"
+            dropdownPosition="bottom"
+            notFoundText="Не найдено"
+            (change)="onCategoryChange($event)"
+            [searchable]="true">
+            <ng-option
+              *ngFor="
+                let category of categoryService.categoryListObserver$ | async
+              "
+              [value]="category">
+              {{ category.title }}
+            </ng-option>
+          </ng-select>
+        </div>
+        <div class="col-6 mb_24">
+          <p class="modal__subtitle">Подкатегория</p>
+          <ng-select
+            formControlName="subcategory"
+            placeholder="Выберите подкатегорию"
+            class="base-select"
+            dropdownPosition="bottom"
+            notFoundText="Не найдено"
+            [searchable]="true">
+            <ng-option
+              *ngFor="let subcategory of subcategories"
+              [value]="subcategory">
+              {{ subcategory.title }}
+            </ng-option>
+          </ng-select>
         </div>
       </div>
       <div class="col-12 mb_32">
@@ -45,5 +83,13 @@
       initialValue=""
       formControlName="editorContent"
       [init]="init"></editor>
+  </div>
+
+  <div class="create-post__footer">
+    <button
+      class="_btn btn-success create-post__button"
+      (click)="onFormSubmit()">
+      Создать
+    </button>
   </div>
 </div>

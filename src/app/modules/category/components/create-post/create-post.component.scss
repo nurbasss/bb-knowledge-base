@@ -16,4 +16,15 @@
     letter-spacing: 0.02em;
     margin-bottom: 24px;
   }
+
+  &__footer {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__button {
+    width: auto;
+    height: 40px;
+  }
 }

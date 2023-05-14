@@ -1,0 +1,69 @@
+<div class="container-wrapper">
+  <div class="variables">
+    <div class="variables-header">
+      <h2 class="variables-title">Переменные</h2>
+      <button
+        type="button"
+        class="_btn btn-success variables-button"
+        (click)="createVariable()">
+        Создать
+      </button>
+    </div>
+    <div class="variables-search">
+      <div class="search">
+        <div class="search__left">
+          <div class="search__icon">
+            <img src="./assets/icons/search.svg" alt="search" />
+          </div>
+          <input
+            type="text"
+            class="search__input"
+            placeholder="Поиск"
+            [formControl]="searchString"
+            (keyup)="onKeyPress($event)"
+            #searchInput
+            (change)="searchInput.value = searchInput.value.trim()" />
+        </div>
+      </div>
+    </div>
+    <bb-loader
+      [loading]="(variableService.isVariableListLoading$ | async) || false">
+      <div class="variables-table">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Наименование</th>
+              <th scope="col">Значение</th>
+              <th scope="col">Категория</th>
+              <th scope="col">Подкатегория</th>
+              <th scope="col">Изменить</th>
+              <th scope="col">Удалить</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let variable of variablesList; index as i">
+              <td>
+                {{ variable.name }}
+              </td>
+              <td>{{ variable.value }}</td>
+              <td>{{ variable.category_name }}</td>
+              <td>{{ variable.sub_category_name }}</td>
+              <td (click)="editVariable(variable)">
+                <img
+                  class="variables-icon"
+                  src="./assets/icons/edit.svg"
+                  alt="edit" />
+              </td>
+              <td (click)="deleteVariable(variable)">
+                <img
+                  class="variables-icon"
+                  src="./assets/icons/delete_urn.svg"
+                  alt="delete" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </bb-loader>
+  </div>
+</div>

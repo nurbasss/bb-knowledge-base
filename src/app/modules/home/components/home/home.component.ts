@@ -1,5 +1,3 @@
-import { HelperService } from './../../../../core/services/helper.service';
-import { LoginService } from './../../../../core/services/login.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,9 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(private loginService: LoginService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.loginService.setAuthorizedStatus(true);
-  }
+  ngOnInit(): void {}
 }

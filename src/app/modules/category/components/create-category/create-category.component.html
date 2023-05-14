@@ -2,30 +2,14 @@
   <div class="create-category" [formGroup]="form">
     <div class="create-category__title mb_24">{{ getTitle() }}</div>
     <div class="row mb_24">
-      <div class="col-6">
+      <!-- <div class="col-6">
         <p class="create-category__subtitle">Пользователи</p>
         <input
           type="text"
           class="form-control base-input"
           id="floatingUsername"
           formControlName="users" />
-      </div>
-      <div class="col-6" *ngIf="type === 'subcategory'">
-        <p class="create-category__subtitle">Категория</p>
-        <ng-select
-          formControlName="category"
-          placeholder="Выберите категорию"
-          class="base-select"
-          dropdownPosition="bottom"
-          notFoundText="Не найдено"
-          [searchable]="true">
-          <ng-option
-            *ngFor="let category of categories"
-            [value]="category.name">
-            {{ category.name }}
-          </ng-option>
-        </ng-select>
-      </div>
+      </div> -->
     </div>
     <div class="row mb_24">
       <div class="col-6">
@@ -34,10 +18,10 @@
           type="text"
           class="form-control base-input"
           placeholder="Введите название"
-          id="floatingUsername"
-          formControlName="name" />
+          id="floatingTitle"
+          formControlName="title" />
       </div>
-      <div class="col-6">
+      <!-- <div class="col-6">
         <p class="create-category__subtitle">Тэги</p>
         <ng-select
           formControlName="tags"
@@ -52,6 +36,21 @@
           bindLabel="name"
           [addTag]="addNewTag">
         </ng-select>
+      </div> -->
+      <div class="col-6" *ngIf="type === 'subcategory'">
+        <p class="create-category__subtitle">Категория</p>
+        <ng-select
+          formControlName="category"
+          placeholder="Выберите категорию"
+          class="base-select"
+          dropdownPosition="bottom"
+          notFoundText="Не найдено"
+          [loading]="(categoryService.isCategoryListLoading$ | async) || false"
+          [searchable]="true">
+          <ng-option *ngFor="let category of categories" [value]="category.id">
+            {{ category.title }}
+          </ng-option>
+        </ng-select>
       </div>
     </div>
     <div class="row">
@@ -65,7 +64,9 @@
       </div>
     </div>
     <div class="create-category__footer">
-      <button class="_btn btn-success create-btn">Создать</button>
+      <button class="_btn btn-success create-btn" (click)="onSubmitForm()">
+        {{ isEdit ? 'Изменить' : 'Создать' }}
+      </button>
     </div>
   </div>
 </div>

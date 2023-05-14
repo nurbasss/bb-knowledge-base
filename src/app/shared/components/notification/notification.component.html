@@ -1,0 +1,13 @@
+<div class="notification">
+  <span class="notification-icon">
+    <img src="{{ './assets/icons/' + notification.type + '.svg' }}" alt="" />
+  </span>
+  <div class="notification-message">
+    <p>{{ notification.title }}</p>
+  </div>
+  <div class="notification-close" (click)="close()">
+    <span>
+      <img src="./assets/icons/close_white.svg" alt="" />
+    </span>
+  </div>
+</div>

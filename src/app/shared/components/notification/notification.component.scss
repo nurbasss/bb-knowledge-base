@@ -1,0 +1,10 @@
+:host {
+  padding: 0 !important;
+}
+
+.notification {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+}

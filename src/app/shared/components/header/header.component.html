@@ -1,4 +1,4 @@
-<ng-template [ngIf]="!isLoggedIn">
+<ng-template [ngIf]="!loginService.isLoggedIn()">
   <div class="header header-login">
     <div class="header__logo">
       <img src="./assets/icons/logo_min.svg" alt="logo" />
@@ -6,7 +6,7 @@
   </div>
 </ng-template>
 
-<ng-template [ngIf]="isLoggedIn">
+<ng-template [ngIf]="loginService.isLoggedIn()">
   <div class="header header-logged">
     <div class="header__top">
       <div class="header__top-left">
@@ -43,18 +43,27 @@
           </div>
         </div>
 
-        <div class="header__top-item">
+        <div class="header__top-item" (click)="openToastr()">
           <img
             class="header__icon"
             src="./assets/icons/bell.svg"
             alt="notifications" />
         </div>
-        <div class="header__top-item">
-          <img
-            class="header__icon"
-            src="./assets/icons/profile.svg"
-            alt="profile" />
-          <p>Serik Berik</p>
+        <div ngbDropdown>
+          <div
+            class="header__top-item"
+            role="button"
+            id="userDropdown"
+            ngbDropdownToggle>
+            <img
+              class="header__icon"
+              src="./assets/icons/profile.svg"
+              alt="profile" />
+            <p *ngIf="user">{{ user.name }}</p>
+          </div>
+          <div ngbDropdownMenu aria-labelledby="createDropdown">
+            <button ngbDropdownItem (click)="logout()">Выйти</button>
+          </div>
         </div>
       </div>
     </div>

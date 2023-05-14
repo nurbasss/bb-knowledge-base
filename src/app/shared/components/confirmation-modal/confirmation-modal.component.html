@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h4 class="modal__title">Подтверждение</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="close()"></button>
+</div>
+<div class="modal-body">
+  <p class="confirmation-text">{{ message }}</p>
+</div>
+
+<div class="modal-footer">
+  <button class="_btn btn-succes confirmation-button" (click)="confirm()">
+    Да
+  </button>
+  <button class="_btn btn-outline-green confirmation-button" (click)="close()">
+    Отмена
+  </button>
+</div>

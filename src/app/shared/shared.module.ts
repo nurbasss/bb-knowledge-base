@@ -11,6 +11,12 @@ import { SearchResultComponent } from './components/search-result/search-result.
 import { VariableModalComponent } from './components/variable-modal/variable-modal.component';
 import { RadioBtnComponent } from './components/radio-btn/radio-btn.component';
 import { AddVariableModalComponent } from './components/add-variable-modal/add-variable-modal.component';
+import { NotificationComponent } from './components/notification/notification.component';
+import { LoaderComponent } from './components/loader/loader.component';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { VariableComponent } from './components/variable/variable.component';
+import { BinderComponent } from './components/binder/binder.component';
+import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +28,12 @@ import { AddVariableModalComponent } from './components/add-variable-modal/add-v
     VariableModalComponent,
     RadioBtnComponent,
     AddVariableModalComponent,
+    NotificationComponent,
+    LoaderComponent,
+    BreadcrumbsComponent,
+    VariableComponent,
+    BinderComponent,
+    ConfirmationModalComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +42,13 @@ import { AddVariableModalComponent } from './components/add-variable-modal/add-v
     NgbModule,
     NgSelectModule,
   ],
-  exports: [HeaderComponent, LeftBarComponent, SearchBarComponent],
+  exports: [
+    HeaderComponent,
+    LeftBarComponent,
+    SearchBarComponent,
+    LoaderComponent,
+    VariableComponent,
+    BinderComponent,
+  ],
 })
 export class SharedModule {}

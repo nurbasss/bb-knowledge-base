@@ -1,0 +1,75 @@
+<!-- <bb-loader [loading]="isPostLoading"> -->
+<div class="row">
+  <div class="col-9">
+    <!-- <div class="container-wrapper"> -->
+    <div class="post">
+      <div class="post-header">
+        <div class="post-header__left pointer" (click)="navigateSubcategory()">
+          <span>
+            <img src="./assets/icons/arrow_left_green.svg" alt="" />
+          </span>
+          {{ categoryService.getSubcatecoryNameById(post?.sub_category_id) }}
+        </div>
+        <div class="post-header__right">
+          <div class="pointer" (click)="openVersions()">
+            <span>
+              <img src="./assets/icons/clock_green.svg" alt="" />
+            </span>
+            Версии
+          </div>
+          <div class="pointer" (click)="navigateEditPost()">
+            <span>
+              <img src="./assets/icons/edit_green.svg" alt="" />
+            </span>
+            Изменить
+          </div>
+        </div>
+      </div>
+      <div class="post-body">
+        <h2 class="post-title">{{ post?.title }}</h2>
+        <div
+          [innerHTML]="post?.content"
+          *ngIf="
+            variables.length === 0 && post?.content && !isPostLoading
+          "></div>
+        <!-- <bb-html-renderer
+          *ngIf="variables.length > 0"
+          [html]="post?.content"
+          [varList]="variables"></bb-html-renderer> -->
+        <bb-binder
+          [html]="post?.content"
+          *ngIf="variables.length > 0"
+          [variables]="variables"></bb-binder>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+  <div class="col-3">
+    <div class="info">
+      <div class="info-header">
+        <p class="info-title">Пользователи</p>
+      </div>
+      <div class="info-body">
+        <div class="info-item">
+          <p class="info-subtitle">Создатель</p>
+          <p class="info-text">Илона Маск</p>
+        </div>
+        <div class="info-item">
+          <p class="info-subtitle">Редакторы</p>
+          <ul>
+            <li>
+              <p class="info-text">Джонибек Деп</p>
+            </li>
+            <li>
+              <p class="info-text">Биллион Гейтс</p>
+            </li>
+            <li>
+              <p class="info-text">Иван Иванов</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </bb-loader> -->

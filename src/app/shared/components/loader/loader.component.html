@@ -1,0 +1,10 @@
+<div [ngClass]="{ center: loading }">
+  <div class="lds-ellipsis" *ngIf="loading">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <ng-content *ngIf="!loading"></ng-content>
+</div>

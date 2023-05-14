@@ -1,0 +1,70 @@
+@import '/src/styles/variables.scss';
+
+.post {
+  background-color: white;
+  border-radius: 8px;
+
+  &-header {
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: $color-green-dark;
+    border-bottom: 1px $color-gray-main solid;
+
+    &__right,
+    &__left {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      span img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+  &-body {
+    padding: 16px 32px 32px;
+  }
+  &-title {
+    margin-bottom: 24px;
+  }
+}
+
+.info {
+  background-color: #fff;
+  border-radius: 8px;
+  &-header {
+    background-color: $color-gray-bg;
+    padding: 8px 16px;
+  }
+  &-body {
+    padding: 8px 16px;
+  }
+  &-item {
+    padding: 12px 0;
+    border-bottom: 1px solid $color-gray-main;
+    ul {
+      list-style: none;
+    }
+  }
+  &-text {
+    margin-left: 12px;
+  }
+  &-title {
+    font-size: $font-size-medium-large;
+    font-weight: $font-weight-bold;
+  }
+  &-subtitle {
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.variable {
+  background-color: yellow;
+}
+
+.pointer {
+  cursor: pointer;
+}

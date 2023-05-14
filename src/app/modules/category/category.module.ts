@@ -7,6 +7,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { UserModalComponent } from './components/user-modal/user-modal.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { CategoryListComponent } from './components/category-list/category-list.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 const routes: Routes = [
   {
@@ -14,8 +16,20 @@ const routes: Routes = [
     component: CreateCategoryComponent,
   },
   {
-    path: 'article/create',
+    path: 'edit/:type/:id',
+    component: CreateCategoryComponent,
+  },
+  {
+    path: 'article/:action/:id',
     component: CreatePostComponent,
+  },
+  {
+    path: 'article/:action',
+    component: CreatePostComponent,
+  },
+  {
+    path: 'list/:type/:id',
+    component: CategoryListComponent,
   },
 ];
 
@@ -24,6 +38,7 @@ const routes: Routes = [
     CreateCategoryComponent,
     UserModalComponent,
     CreatePostComponent,
+    CategoryListComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +47,7 @@ const routes: Routes = [
     NgSelectModule,
     FormsModule,
     EditorModule,
+    SharedModule,
   ],
 })
 export class CategoryModule {}

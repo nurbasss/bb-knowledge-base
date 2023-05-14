@@ -1,0 +1,79 @@
+@import '/src/styles/variables.scss';
+
+.variables {
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  &-title {
+    font-size: $font-size-medium-large;
+    font-weight: $font-weight-medium;
+  }
+
+  &-button {
+    height: 40px;
+    padding: 0 16px;
+    width: auto;
+  }
+
+  &-search {
+    margin-bottom: 24px;
+  }
+
+  &-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  .search {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 24px 8px 16px;
+    border-radius: 12px;
+    background-color: $color-gray-main;
+    max-width: 328px;
+    align-items: center;
+    position: relative;
+    margin-bottom: 16px;
+    &__left {
+      display: flex;
+      align-items: center;
+    }
+    &__icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+    &__text {
+      font-weight: $font-weight-medium;
+      font-size: $font-size-small;
+      color: $color-black;
+    }
+
+    &__input {
+      width: 100%;
+      max-width: 242px;
+      border: none;
+      background-color: transparent;
+      outline: none;
+      padding-right: 8px;
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      color: $color-black;
+    }
+  }
+  &-table {
+    table {
+      tbody tr {
+        td:nth-child(5),
+        td:nth-child(6) {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

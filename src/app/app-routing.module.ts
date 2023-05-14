@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PostModule } from './modules/post/post.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,6 +18,16 @@ const routes: Routes = [
     path: 'categories',
     loadChildren: () =>
       import('./modules/category/category.module').then(m => m.CategoryModule),
+  },
+  {
+    path: 'variables',
+    loadChildren: () =>
+      import('./modules/variable/variable.module').then(m => m.VariableModule),
+  },
+  {
+    path: 'posts',
+    loadChildren: () =>
+      import('./modules/post/post.module').then(m => m.PostModule),
   },
 ];
 
