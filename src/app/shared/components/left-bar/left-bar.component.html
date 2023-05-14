@@ -21,7 +21,7 @@
         <div
           class="left-bar__secondary"
           *ngFor="let sub of category.sub_categories">
-          <span class="left-bar__icon">
+          <span class="left-bar__icon rotate-90">
             <img src="./assets/icons/arrow_down.svg" alt="arrow" />
           </span>
           <p class="left-bar__subtitle" (click)="navigateSubcategory(sub.id)">

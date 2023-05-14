@@ -72,12 +72,11 @@ export class CategoryListComponent implements OnInit {
 
   navigateForm(type: string) {
     if (type === 'subcategory') {
-      this.router.navigate(['categories/create/subcategory'], {
-        queryParams: { categoryId: this.categoryId },
-      });
+      this.router.navigate(['categories/create/subcategory']);
+    } else if (type === 'post') {
+      this.router.navigate(['categories/article/create']);
     }
   }
-
   getSubcategoryById() {
     this.isSubcategoryLoading = true;
     this.changeDetector.detectChanges();
@@ -102,7 +101,7 @@ export class CategoryListComponent implements OnInit {
   navigateBack() {
     if (this.type === 'subcategory') {
       this.router.navigate([
-        '/categories/category/' + this.category?.category_id,
+        '/categories/list/category/' + this.category?.category_id,
       ]);
     } else {
       this.router.navigate(['/home']);

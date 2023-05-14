@@ -1,0 +1,81 @@
+@import '/src/styles/variables.scss';
+
+.modal {
+  &-header {
+    padding: 24px;
+  }
+
+  &-body {
+    padding: 16px 24px 24px 24px;
+    margin-bottom: 32px;
+  }
+}
+
+.version {
+  &-active {
+    padding-bottom: 12px;
+    border-bottom: 2px solid #000;
+  }
+
+  &-list {
+    padding-top: 16px;
+  }
+
+  &-subtitle {
+    font-size: $font-size-h5-large;
+    font-weight: $font-weight-medium-bold;
+    color: $color-black;
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+  }
+
+  &-table {
+    table {
+      width: 100%;
+      thead {
+        tr {
+          padding: 12px;
+          th {
+            border-bottom: none !important;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            &:nth-child(1) {
+              width: 20%;
+            }
+            &:nth-child(2) {
+              width: 20%;
+            }
+            &:nth-child(3) {
+              width: 50%;
+            }
+            &:nth-child(4) {
+              width: 10%;
+            }
+          }
+          &:last-child {
+            td {
+              border-bottom: none !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.active {
+  color: $color-green-dark !important;
+}
+
+.redirect {
+  color: $color-blue;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+}

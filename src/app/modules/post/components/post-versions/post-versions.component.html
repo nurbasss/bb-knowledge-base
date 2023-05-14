@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <h4 class="modal__title">
+    История изменений поста "{{ activePost?.title }}"
+  </h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="close()"></button>
+</div>
+<div class="modal-body">
+  <div class="version-active">
+    <div class="version-subtitle">Действующая версия</div>
+    <div class="version-table">
+      <table class="table table-stripped">
+        <thead>
+          <tr>
+            <th scope="col">Версия</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Название</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ activePost?.id }}</td>
+            <td>{{ activePost?.created_by }}</td>
+            <td>{{ activePost?.title }}</td>
+            <td class="active">Активная</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="version-list">
+    <div class="version-subtitle">Все версии</div>
+    <div class="version-table">
+      <table class="table table-stripped">
+        <thead>
+          <tr>
+            <th scope="col">Версия</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Название</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let post of postHistoryList">
+            <td>{{ post?.id }}</td>
+            <td>{{ post?.created_by }}</td>
+            <td>{{ post?.title }}</td>
+            <td
+              class="redirect"
+              (click)="navigateVersion(post?.id)"
+              *ngIf="!post?.is_current">
+              Перейти
+            </td>
+            <td class="active" *ngIf="post?.is_current">Активная</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

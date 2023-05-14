@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <h4 class="modal__title">Выберите изображение</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="close()"></button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Выберите изображение</label>
+          <input
+            (change)="this.onFilechange($event)"
+            class="form-control"
+            type="file"
+            id="formFile" />
+          <button
+            (click)="this.upload()"
+            type="button"
+            class="btn btn-primary mt-3">
+            Выбрать
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="modal-footer">
+  <button
+    type="button"
+    class="_btn btn-success variable-button"
+    (click)="sendFile()">
+    Выбрать
+  </button>
+</div> -->

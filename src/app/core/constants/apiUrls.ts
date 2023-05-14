@@ -17,3 +17,11 @@ export const GET_VARS_BY_IDS = '/variables_by_ids';
 //posts
 export const POST_CREATE_POST = '/post';
 export const GET_POST_BY_ID = '/post';
+export const GET_POST_VERSION_BY_ID = '/post_history';
+export const POST_REVERT_POST_VERSION = '/post_revert';
+
+//users
+export const POST_GET_USERS_BY_IDS = '/users_by_ids';
+
+//image
+export const POST_IMAGE_UPLOAD = '/image';

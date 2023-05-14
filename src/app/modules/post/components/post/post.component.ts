@@ -1,10 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { errorMessage } from '@app/core/helper';
+import { errorMessage, formateDate } from '@app/core/helper';
 import { CategoryService } from '@app/core/services/category.service';
 import { PostService } from '@app/core/services/post.service';
 import { VariableService } from '@app/core/services/variable.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { PostVersionsComponent } from '../post-versions/post-versions.component';
+import { HelperService } from '@app/core/services/helper.service';
 
 @Component({
   selector: 'bb-post',
@@ -17,6 +20,9 @@ export class PostComponent implements OnInit {
   public isPostLoading: boolean = false;
   public postContent: string;
   public variables: any[] = [];
+  public postHistory: any[] = [];
+  public isVersionPost: boolean = false;
+  public users: any[] = [];
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -25,13 +31,21 @@ export class PostComponent implements OnInit {
     private postService: PostService,
     private variableService: VariableService,
     private toastr: ToastrService,
-    public categoryService: CategoryService
+    public categoryService: CategoryService,
+    private modalService: NgbModal,
+    private helperService: HelperService
   ) {}
 
   ngOnInit(): void {
+    if (this.router.url.split('/')[2] === 'post-version') {
+      this.isVersionPost = true;
+      this.changeDetector.detectChanges();
+    }
     this.route.params.subscribe(params => {
       this.id = params['id'];
-      this.getPostById();
+      if (this.isVersionPost) {
+        this.getPostVersionById();
+      } else this.getPostById();
     });
   }
 
@@ -41,6 +55,13 @@ export class PostComponent implements OnInit {
     this.postService.getPostById(this.id).subscribe({
       next: (data: any) => {
         this.post = data.posts;
+        this.postHistory = data.post_histories;
+        let userIds = [];
+        userIds.push(Number(this.post.created_by));
+        if (!userIds.includes(Number(this.post?.updated_by))) {
+          userIds.push(Number(this.post?.updated_by));
+        }
+        this.getUsersById(userIds);
         this.getVariables(JSON.parse(this.post.variable_ids));
       },
       error: (error: any) => {
@@ -77,6 +98,83 @@ export class PostComponent implements OnInit {
   navigateEditPost() {
     this.router.navigate(['categories/article/edit/' + this.id]);
   }
+  navigatePost(id: any) {
+    this.router.navigate(['/posts/post/' + id]);
+  }
 
-  openVersions() {}
+  openVersions() {
+    const modalRef = this.modalService.open(PostVersionsComponent, {
+      scrollable: true,
+      modalDialogClass: 'mw-1020',
+      centered: true,
+    });
+    modalRef.componentInstance.postHistoryList = this.postHistory;
+    modalRef.componentInstance.activePost = this.postHistory.find(
+      post => post.is_current === 1
+    );
+  }
+
+  getPostVersionById() {
+    this.isPostLoading = true;
+    this.changeDetector.detectChanges();
+    this.postService.getPostVersionById(this.id).subscribe({
+      next: (data: any) => {
+        this.post = data.posts;
+        let userIds = [];
+        userIds.push(Number(this.post.created_by));
+        if (!userIds.includes(Number(this.post?.updated_by))) {
+          userIds.push(Number(this.post?.updated_by));
+        }
+        this.getUsersById(userIds);
+        //this.postHistory = data.post_histories;
+        this.getVariables(JSON.parse(this.post.variable_ids));
+      },
+      error: (error: any) => {
+        this.isPostLoading = false;
+        this.changeDetector.detectChanges();
+        errorMessage(error, this.toastr);
+      },
+    });
+  }
+
+  revertPostVersion() {
+    let body = {
+      post_id: this.post.post_id,
+      post_history_id: this.post.id,
+    };
+    this.postService.revertPostVersion(body).subscribe({
+      next: (data: any) => {
+        this.navigatePost(data?.posts.id);
+      },
+      error: (error: any) => {
+        errorMessage(error, this.toastr);
+      },
+    });
+  }
+
+  getUsersById(ids: number[]) {
+    this.helperService.getUsersByIds(ids).subscribe({
+      next: (data: any) => {
+        this.users = data?.users;
+        this.changeDetector.detectChanges();
+      },
+      error: (error: any) => {
+        errorMessage(error, this.toastr);
+      },
+    });
+  }
+
+  getUserName(id: any) {
+    if (this.users.length) {
+      return this.users.find(us => us.id === id)?.name;
+    }
+    return '';
+  }
+
+  formatDate(date: string) {
+    if (date) {
+      return formateDate(date);
+    }
+    return '';
+  }
 }

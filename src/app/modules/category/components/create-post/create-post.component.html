@@ -1,6 +1,8 @@
 <div class="container-wrapper" [formGroup]="form">
   <div class="create-post">
-    <p class="create-post__title">Создать пост</p>
+    <p class="create-post__title">
+      {{ this.type === 'edit' ? 'Изменить пост' : 'Создать пост' }}
+    </p>
     <div>
       <button
         id="choose"
@@ -10,6 +12,12 @@
         id="add"
         (click)="openAddVariableModal()"
         style="display: none"></button>
+      <button
+        id="imageUpload"
+        (click)="openImageUploadModal()"
+        style="display: none">
+        >
+      </button>
       <p class="create-post__subtitle">Детали поста</p>
       <div class="col-12 mb_16">
         <div class="form-floating">
@@ -59,7 +67,7 @@
           </ng-select>
         </div>
       </div>
-      <div class="col-12 mb_32">
+      <!-- <div class="col-12 mb_32">
         <ng-select
           formControlName="postTags"
           placeholder="Выберите тэги"
@@ -73,7 +81,7 @@
           bindLabel="name"
           [addTag]="addNewTag">
         </ng-select>
-      </div>
+      </div> -->
     </div>
   </div>
   <p class="create-post__subtitle">Текст поста</p>
@@ -89,7 +97,7 @@
     <button
       class="_btn btn-success create-post__button"
       (click)="onFormSubmit()">
-      Создать
+      {{ this.type === 'edit' ? 'Изменить' : 'Создать' }}
     </button>
   </div>
 </div>

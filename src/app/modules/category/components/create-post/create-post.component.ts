@@ -18,6 +18,7 @@ import { PostService } from '@app/core/services/post.service';
 import { errorMessage, successMessage } from '@app/core/helper';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ImageUploadComponent } from '@app/modules/post/components/image-upload/image-upload.component';
 
 @Component({
   selector: 'bb-create-post',
@@ -30,6 +31,7 @@ export class CreatePostComponent implements OnInit {
   //public editor: any = Editor;
   public showChooseVariableModal$ = new BehaviorSubject<boolean>(false);
   public showAddVariableModal$ = new BehaviorSubject<boolean>(false);
+  public showImageUploadModal$ = new BehaviorSubject<boolean>(false);
   public dataToInsert = new BehaviorSubject<string>('');
   public dataToInsertSubscription: Subscription;
   public editorData: string = '';
@@ -51,8 +53,8 @@ export class CreatePostComponent implements OnInit {
   init = {
     content_style: '.variable { background-color: yellow; }',
     height: 500,
-    valid_elements: 'bb-variable[*],br',
-    menubar: 'edit view insert format tools table help',
+    valid_elements: 'bb-variable[*],br,table,tr,td,th,tbody,thead,tfoot,img[*]',
+    menubar: 'edit view format tools table help',
     // forced_root_block: 'div',
     // force_br_newlines: true,
     // force_p_newlines: false,
@@ -74,8 +76,7 @@ export class CreatePostComponent implements OnInit {
       'code',
     ],
     toolbar:
-      'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | link | image |\
-      chooseVariableButton | addVariableButton |',
+      'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | link | imageButton | chooseVariableButton | addVariableButton |',
     setup: (editor: any) => {
       editor.ui.registry.addButton('chooseVariableButton', {
         text: 'Добавить переменную',
@@ -96,6 +97,21 @@ export class CreatePostComponent implements OnInit {
         text: 'Создать переменную',
         onAction: () => {
           this.showAddVariableModal$.next(true);
+          this.dataToInsert.next('');
+          if (this.dataToInsertSubscription) {
+            this.dataToInsertSubscription.unsubscribe();
+          }
+          this.dataToInsertSubscription = this.dataToInsert.subscribe(value => {
+            if (value) {
+              editor.insertContent(value);
+            }
+          });
+        },
+      });
+      editor.ui.registry.addButton('imageButton', {
+        icon: 'image',
+        onAction: () => {
+          this.showImageUploadModal$.next(true);
           this.dataToInsert.next('');
           if (this.dataToInsertSubscription) {
             this.dataToInsertSubscription.unsubscribe();
@@ -150,6 +166,11 @@ export class CreatePostComponent implements OnInit {
     this.showAddVariableModal$.subscribe(val => {
       if (val) {
         document.getElementById('add')?.click();
+      }
+    });
+    this.showImageUploadModal$.subscribe(val => {
+      if (val) {
+        document.getElementById('imageUpload')?.click();
       }
     });
     this.variableService.getAllVariables();
@@ -302,6 +323,21 @@ export class CreatePostComponent implements OnInit {
         this.isEditPostLoading = false;
         this.changeDetector.detectChanges();
       },
+    });
+  }
+
+  openImageUploadModal() {
+    const modalRef = this.modalService.open(ImageUploadComponent, {
+      centered: true,
+    });
+    modalRef.result.then(result => {
+      if (result) {
+        const content = this.form.controls['editorContent'];
+        const prev = content.value ? content.value + ' ' : '';
+        const res = `<img src=\"http://${result.replaceAll('//', '/')}\" />`;
+        this.dataToInsert.next(res);
+        this.variableService.getAllVariables();
+      }
     });
   }
 }

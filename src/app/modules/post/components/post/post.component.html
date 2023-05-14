@@ -11,22 +11,45 @@
           {{ categoryService.getSubcatecoryNameById(post?.sub_category_id) }}
         </div>
         <div class="post-header__right">
-          <div class="pointer" (click)="openVersions()">
+          <div *ngIf="!isVersionPost" class="pointer" (click)="openVersions()">
             <span>
               <img src="./assets/icons/clock_green.svg" alt="" />
             </span>
             Версии
           </div>
-          <div class="pointer" (click)="navigateEditPost()">
+          <div
+            *ngIf="!isVersionPost"
+            class="pointer"
+            (click)="navigateEditPost()">
             <span>
               <img src="./assets/icons/edit_green.svg" alt="" />
             </span>
             Изменить
           </div>
+          <div
+            *ngIf="isVersionPost"
+            class="pointer"
+            (click)="revertPostVersion()">
+            <span>
+              <img src="./assets/icons/edit_green.svg" alt="" />
+            </span>
+            Вернуть
+          </div>
+          <!-- <div
+            *ngIf="isVersionPost"
+            class="pointer"
+            (click)="navigatePost(post?.post_id)">
+            АктуИнформацияальная версия
+          </div> -->
         </div>
       </div>
       <div class="post-body">
-        <h2 class="post-title">{{ post?.title }}</h2>
+        <h2 *ngIf="isVersionPost">
+          История изменений (Версия - {{ post?.id }})
+        </h2>
+        <h2 class="post-title">
+          {{ post?.title }}
+        </h2>
         <div
           [innerHTML]="post?.content"
           *ngIf="
@@ -47,14 +70,23 @@
   <div class="col-3">
     <div class="info">
       <div class="info-header">
-        <p class="info-title">Пользователи</p>
+        <p class="info-title">Информация</p>
       </div>
       <div class="info-body">
         <div class="info-item">
-          <p class="info-subtitle">Создатель</p>
-          <p class="info-text">Илона Маск</p>
+          <p class="info-subtitle">Автор</p>
+          <p class="info-text">{{ getUserName(this.post?.created_by) }}</p>
         </div>
         <div class="info-item">
+          <p class="info-subtitle">Дата создания</p>
+          <p class="info-text">{{ formatDate(this.post?.created_at) }}</p>
+        </div>
+        <div class="info-item">
+          <p class="info-subtitle">Последнее изменение</p>
+          <!-- <p class="info-text">{{ getUserName(this.post?.updated_by) }}</p> -->
+          <p class="info-text">{{ formatDate(this.post?.updated_at) }}</p>
+        </div>
+        <!-- <div class="info-item">
           <p class="info-subtitle">Редакторы</p>
           <ul>
             <li>
@@ -67,7 +99,7 @@
               <p class="info-text">Иван Иванов</p>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
