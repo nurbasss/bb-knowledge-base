@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Category } from '@app/data/models/category';
-import { environment } from 'environment/environment';
+import { environment } from '@env/environment';
 import { BehaviorSubject } from 'rxjs';
 import {
   GET_CATEGORIES,

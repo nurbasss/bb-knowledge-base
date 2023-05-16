@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'environment/environment';
+import { environment } from '@env/environment';
 import { POST_GET_USERS_BY_IDS } from '../constants/apiUrls';
 
 @Injectable({

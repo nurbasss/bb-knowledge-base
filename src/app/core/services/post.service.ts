@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'environment/environment';
+import { environment } from '@env/environment';
 import {
   GET_POST_BY_ID,
   GET_POST_VERSION_BY_ID,
