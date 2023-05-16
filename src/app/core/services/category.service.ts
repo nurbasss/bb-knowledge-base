@@ -108,4 +108,12 @@ export class CategoryService {
   getCategoryById(id: any) {
     return this.categoryList$.value.find(category => category.id === id);
   }
+
+  deleteCategoryById(id: any) {
+    return this.http.post(`${environment.baseUrl + POST_CREATE_CATEGORY}/${id}`, {_method: 'DELETE'})
+  }
+
+  deleteSubcategoryById(id: any) {
+    return this.http.post(`${environment.baseUrl + POST_CREATE_SUBCATEGORY}/${id}`, {_method: 'DELETE'})
+  }
 }

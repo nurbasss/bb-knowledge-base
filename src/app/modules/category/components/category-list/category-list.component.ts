@@ -9,6 +9,8 @@ import {
 } from '@app/core/helper';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '@app/shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'bb-category-list',
@@ -27,7 +29,8 @@ export class CategoryListComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private changeDetector: ChangeDetectorRef,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal,
   ) {}
 
   ngOnInit(): void {
@@ -114,5 +117,17 @@ export class CategoryListComponent implements OnInit {
 
   navigateSubcategory(subcategory: any) {
     this.router.navigate(['/categories/list/subcategory/' + subcategory.id]);
+  }
+
+  deleteHandler() {
+    const modalRef = this.modalService.open(ConfirmationModalComponent, {
+      centered: true,
+    });
+  modalRef.componentInstance.message = `Вы действительно хотите удалить категорию "${this.category.title}"?`
+  modalRef.result.then(result => {
+    if(result) {
+      this.categoryService.deleteCategoryById(this.categoryId)
+    }
+  })
   }
 }
