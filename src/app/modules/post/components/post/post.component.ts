@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { errorMessage, formateDate } from '@app/core/helper';
+import { errorMessage, formateDate, successMessage } from '@app/core/helper';
 import { CategoryService } from '@app/core/services/category.service';
 import { PostService } from '@app/core/services/post.service';
 import { VariableService } from '@app/core/services/variable.service';
@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { PostVersionsComponent } from '../post-versions/post-versions.component';
 import { HelperService } from '@app/core/services/helper.service';
+import { ConfirmationModalComponent } from '@app/shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'bb-post',
@@ -61,6 +62,12 @@ export class PostComponent implements OnInit {
         if (!userIds.includes(Number(this.post?.updated_by))) {
           userIds.push(Number(this.post?.updated_by));
         }
+        this.postHistory.forEach(item => {
+          let id = Number(item.created_by);
+          if (!userIds.includes(id)) {
+            userIds.push(id);
+          }
+        });
         this.getUsersById(userIds);
         this.getVariables(JSON.parse(this.post.variable_ids));
       },
@@ -112,6 +119,7 @@ export class PostComponent implements OnInit {
     modalRef.componentInstance.activePost = this.postHistory.find(
       post => post.is_current === 1
     );
+    modalRef.componentInstance.users = this.users;
   }
 
   getPostVersionById() {
@@ -176,5 +184,28 @@ export class PostComponent implements OnInit {
       return formateDate(date);
     }
     return '';
+  }
+
+  deletePost() {
+    const modalRef = this.modalService.open(ConfirmationModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.message = `Вы действительно хотите удалить пост "${this.post.title}"?`;
+    modalRef.result.then(result => {
+      if (result) {
+        this.postService.deletePost(this.id).subscribe({
+          next: (data: any) => {
+            successMessage(
+              `Пост ${this.post?.title} успешно удален`,
+              this.toastr
+            );
+            this.navigateSubcategory();
+          },
+          error: (error: any) => {
+            errorMessage(error, this.toastr);
+          },
+        });
+      }
+    });
   }
 }

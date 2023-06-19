@@ -47,8 +47,8 @@
           notFoundText="Не найдено"
           [loading]="(categoryService.isCategoryListLoading$ | async) || false"
           [searchable]="true">
-          <ng-option *ngFor="let category of categories" [value]="category.id">
-            {{ category.title }}
+          <ng-option *ngFor="let category of categories" [value]="category?.id">
+            {{ category?.title }}
           </ng-option>
         </ng-select>
       </div>

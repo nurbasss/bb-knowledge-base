@@ -31,4 +31,11 @@
   color: $color-green;
   height: 56px;
   font-size: $font-size-medium;
+  background-color: #fff;
+}
+
+.h {
+  &-40 {
+    height: 40px;
+  }
 }

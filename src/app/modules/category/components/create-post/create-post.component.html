@@ -40,6 +40,7 @@
             dropdownPosition="bottom"
             notFoundText="Не найдено"
             (change)="onCategoryChange($event)"
+            [loading]="categoryService.isCategoryListLoading$ | async"
             [searchable]="true">
             <ng-option
               *ngFor="

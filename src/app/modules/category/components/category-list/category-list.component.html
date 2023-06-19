@@ -13,13 +13,25 @@
         }}
       </div>
       <div class="list-header__right">
+        <div
+          class="pointer"
+          (click)="
+            type === 'subcategory'
+              ? navigateForm('post')
+              : navigateForm('subcategory')
+          ">
+          <span>
+            <img src="./assets/icons/add_green.svg" alt="" />
+          </span>
+          Добавить
+        </div>
         <div class="pointer" (click)="navigateEdit()">
           <span>
             <img src="./assets/icons/edit_green.svg" alt="" />
           </span>
           Изменить
         </div>
-        <div class="pointer">
+        <div class="pointer" (click)="deleteHandler()">
           <span>
             <img src="./assets/icons/delete_urn_green.svg" alt="" />
           </span>

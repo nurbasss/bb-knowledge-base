@@ -52,4 +52,10 @@ export class PostService {
       formParams
     );
   }
+
+  deletePost(id: any) {
+    return this.http.post(`${environment.baseUrl + POST_CREATE_POST}/${id}`, {
+      _method: 'DELETE',
+    });
+  }
 }

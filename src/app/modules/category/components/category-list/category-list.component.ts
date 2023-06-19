@@ -6,6 +6,7 @@ import {
   errorMessage,
   formateDate,
   generateRandomColor,
+  successMessage,
 } from '@app/core/helper';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -30,7 +31,7 @@ export class CategoryListComponent implements OnInit {
     private router: Router,
     private changeDetector: ChangeDetectorRef,
     private toastr: ToastrService,
-    private modalService: NgbModal,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -75,9 +76,16 @@ export class CategoryListComponent implements OnInit {
 
   navigateForm(type: string) {
     if (type === 'subcategory') {
-      this.router.navigate(['categories/create/subcategory']);
+      this.router.navigate(['categories/create/subcategory'], {
+        queryParams: { category: this.categoryId },
+      });
     } else if (type === 'post') {
-      this.router.navigate(['categories/article/create']);
+      this.router.navigate(['categories/article/create'], {
+        queryParams: {
+          subcategory: this.categoryId,
+          category: this.category?.category_id,
+        },
+      });
     }
   }
   getSubcategoryById() {
@@ -123,11 +131,40 @@ export class CategoryListComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmationModalComponent, {
       centered: true,
     });
-  modalRef.componentInstance.message = `Вы действительно хотите удалить категорию "${this.category.title}"?`
-  modalRef.result.then(result => {
-    if(result) {
-      this.categoryService.deleteCategoryById(this.categoryId)
-    }
-  })
+
+    const successCb = (data: any) => {
+      this.navigateBack();
+      successMessage(
+        `${this.type === 'subcategory' ? 'Подкатегория' : 'Категория'} "${
+          this.category.title
+        }" успешно удалена`,
+        this.toastr
+      );
+      this.categoryService.getCategoryList();
+    };
+    const errCb = (error: any) => {
+      errorMessage(error, this.toastr);
+    };
+
+    modalRef.componentInstance.message = `Вы действительно хотите удалить ${
+      this.type === 'subcategory' ? 'подкатегорию' : 'категорию'
+    } "${this.category.title}"?`;
+    modalRef.result.then(result => {
+      if (result) {
+        if (this.type === 'subcategory') {
+          this.categoryService
+            .deleteSubcategoryById(this.categoryId)
+            .subscribe({
+              next: successCb,
+              error: errCb,
+            });
+        } else {
+          this.categoryService.deleteCategoryById(this.categoryId).subscribe({
+            next: successCb,
+            error: errCb,
+          });
+        }
+      }
+    });
   }
 }

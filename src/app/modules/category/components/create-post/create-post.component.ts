@@ -8,7 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { VariableModalComponent } from '@app/shared/components/variable-modal/variable-modal.component';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, first } from 'rxjs';
 import { Variable } from '@app/data/models/variable';
 import { Category, Subcategory } from '@app/data/models/category';
 import { CategoryService } from '@app/core/services/category.service';
@@ -53,7 +53,8 @@ export class CreatePostComponent implements OnInit {
   init = {
     content_style: '.variable { background-color: yellow; }',
     height: 500,
-    valid_elements: 'bb-variable[*],br,table,tr,td,th,tbody,thead,tfoot,img[*]',
+    valid_elements:
+      'bb-variable[*],br[*],table[*],tr[*],td[*],th[*],tbody[*],thead[*],tfoot[*],img[*]',
     menubar: 'edit view format tools table help',
     // forced_root_block: 'div',
     // force_br_newlines: true,
@@ -182,6 +183,22 @@ export class CreatePostComponent implements OnInit {
         this.getPostById();
       }
     });
+    setTimeout(() => {
+      this.route.queryParams.pipe(first()).subscribe((params: any) => {
+        const catId = params?.category;
+        const subId = params?.subcategory;
+        this.form.controls['category'].setValue(
+          this.categoryService.getCategoryById(catId)
+        );
+        console.log();
+
+        this.onCategoryChange(this.form.controls['category'].value);
+        this.form.controls['subcategory'].setValue(
+          this.categoryService.getLocalSubcategoryById(subId)
+        );
+        this.changeDetector.detectChanges();
+      });
+    }, 2000);
   }
 
   addNewTag = (term: string) => {

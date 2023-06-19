@@ -24,7 +24,7 @@
         <tbody>
           <tr>
             <td>{{ activePost?.id }}</td>
-            <td>{{ activePost?.created_by }}</td>
+            <td>{{ getUserName(activePost?.created_by) }}</td>
             <td>{{ activePost?.title }}</td>
             <td class="active">Активная</td>
           </tr>
@@ -47,7 +47,7 @@
         <tbody>
           <tr *ngFor="let post of postHistoryList">
             <td>{{ post?.id }}</td>
-            <td>{{ post?.created_by }}</td>
+            <td>{{ getUserName(activePost?.created_by) }}</td>
             <td>{{ post?.title }}</td>
             <td
               class="redirect"

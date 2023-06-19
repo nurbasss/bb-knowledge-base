@@ -18,6 +18,7 @@ export class CreateCategoryComponent implements OnInit {
   public categories: Category[] = [];
   public editCategory: any;
   public editId: any;
+  public prefillCategoryId: any;
 
   public tags: any[] = [
     { name: 'Тэг 1' },
@@ -43,14 +44,11 @@ export class CreateCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.prefillCategoryId = this.route.queryParams['category'];
     this.route.params.subscribe(params => {
       this.type = params['type'];
-      console.log(this.router.url);
       this.editId = Number(params['id']);
       const action = this.router.url.split('/')[2].toString();
-      console.log(this.router.url.split('/')[2]);
-      console.log('edit' === action);
-
       this.form.reset();
       if (this.type === 'subcategory') {
         this.categoryService.getCategoryList();
@@ -60,6 +58,19 @@ export class CreateCategoryComponent implements OnInit {
         }
         this.categoryService.categoryList$.subscribe((data: Category[]) => {
           this.categories = data;
+          const prefilledCategory = this.categories.find(
+            el => this.prefillCategoryId === el?.id
+          );
+          console.log(this.categories);
+          console.log(this.prefillCategoryId);
+          console.log(prefilledCategory);
+
+          this.form.controls['category'].setValue(prefilledCategory);
+
+          console.log(
+            this.categoryService.getCategoryById(this.prefillCategoryId)
+          );
+
           this.changeDetector.detectChanges();
         });
       } else {
@@ -69,6 +80,11 @@ export class CreateCategoryComponent implements OnInit {
         }
       }
     });
+
+    // this.route.queryParams.subscribe((params: any) => {
+    //   this.prefillCategory = params[category];
+
+    // });
     // this.route.queryParams.subscribe((data: any) => {
     //   if (data) {
     //     this.form.get('category')?.setValue();
