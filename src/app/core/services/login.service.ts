@@ -69,8 +69,6 @@ export class LoginService {
   }
 
   private setSession = (authResult: any) => {
-    console.log(authResult);
-
     sessionStorage.setItem('accessToken', authResult.authorisation.token);
     localStorage.setItem('currentUser', JSON.stringify(authResult?.user));
     this.currentUser$.next(authResult?.user as User);

@@ -4,6 +4,7 @@ import {
   OnInit,
   ViewEncapsulation,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +16,11 @@ import { CategoryService } from '@app/core/services/category.service';
 import { VariableService } from '@app/core/services/variable.service';
 import { AddVariableModalComponent } from '@app/shared/components/add-variable-modal/add-variable-modal.component';
 import { PostService } from '@app/core/services/post.service';
-import { errorMessage, successMessage } from '@app/core/helper';
+import {
+  errorMessage,
+  successMessage,
+  validateFormFields,
+} from '@app/core/helper';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageUploadComponent } from '@app/modules/post/components/image-upload/image-upload.component';
@@ -26,7 +31,10 @@ import { ImageUploadComponent } from '@app/modules/post/components/image-upload/
   styleUrls: ['./create-post.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent
+  extends SubscriptionAccumulator
+  implements OnInit, OnDestroy
+{
   public form: FormGroup;
   //public editor: any = Editor;
   public showChooseVariableModal$ = new BehaviorSubject<boolean>(false);
@@ -42,6 +50,9 @@ export class CreatePostComponent implements OnInit {
   public postId: number;
   public editPost: any;
   public isEditPostLoading: boolean = false;
+  public prefillCategory$ = new BehaviorSubject<any>(null);
+  public prefillSubCategory$ = new BehaviorSubject<any>(null);
+  public prefillSubscription: Subscription;
 
   public tags: any[] = [
     { name: 'Тэг 1' },
@@ -148,6 +159,7 @@ export class CreatePostComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
+    super();
     this.form = this.fb.group({
       title: [null, Validators.required],
       category: [null, Validators.required],
@@ -155,6 +167,15 @@ export class CreatePostComponent implements OnInit {
       postTags: [null],
       editorContent: [null, Validators.required],
     });
+  }
+
+  override ngOnDestroy(): void {
+    this.prefillSubCategory$.next(null);
+    this.prefillCategory$.next(null);
+    if (this.prefillSubscription) {
+      this.prefillSubscription.unsubscribe();
+    }
+    this.unsubscribeAll();
   }
 
   ngOnInit(): void {
@@ -183,31 +204,42 @@ export class CreatePostComponent implements OnInit {
         this.getPostById();
       }
     });
-    setTimeout(() => {
+    this.addSubscriber(
       this.route.queryParams.pipe(first()).subscribe((params: any) => {
         const catId = params?.category;
         const subId = params?.subcategory;
-        this.form.controls['category'].setValue(
-          this.categoryService.getCategoryById(catId)
-        );
-        console.log();
-
-        this.onCategoryChange(this.form.controls['category'].value);
-        this.form.controls['subcategory'].setValue(
-          this.categoryService.getLocalSubcategoryById(subId)
-        );
+        this.prefillCategory$.next(catId);
+        this.prefillSubCategory$.next(subId);
         this.changeDetector.detectChanges();
-      });
-    }, 2000);
+      })
+    );
+    this.addSubscriber(
+      this.categoryService.categoryList$.subscribe((list: any) => {
+        if (list) {
+          this.prefillSubscription = this.prefillCategory$.subscribe(data => {
+            if (data) {
+              this.form.controls['category'].setValue(
+                this.categoryService.getCategoryById(data)
+              );
+              this.onCategoryChange(this.form.controls['category'].value);
+              this.form.controls['subcategory'].setValue(
+                this.categoryService.getLocalSubcategoryById(
+                  this.prefillSubCategory$.value
+                )
+              );
+              this.changeDetector.detectChanges();
+            }
+          });
+        }
+      })
+    );
   }
 
   addNewTag = (term: string) => {
     return { name: term };
   };
 
-  handler() {
-    console.log('clicked');
-  }
+  handler() {}
 
   openChooseVariableModal() {
     const modalRef = this.modalService.open(VariableModalComponent, {
@@ -272,44 +304,45 @@ export class CreatePostComponent implements OnInit {
   }
 
   onFormSubmit() {
-    const markup = this.form.controls['editorContent'].value;
-    this.handleVariables(markup);
-    console.log(this.form.controls['editorContent'].value);
-    console.log(this.usedVariableIds);
-
-    let body: any = {
-      title: this.form.controls['title'].value,
-      description: 'desc',
-      content: markup,
-      sub_category_id: this.form.controls['subcategory'].value.id,
-      variable_ids: this.usedVariableIds,
-    };
-    if (this.type === 'edit' && this.editPost) {
-      body._method = 'PUT';
-      this.postService.updatePost(body, this.postId).subscribe({
-        next: (data: any) => {
-          successMessage('Пост успешно изменен', this.toastr);
-          if (data?.posts?.id) {
-            this.router.navigate(['posts/post/' + data?.posts?.id]);
-          } else {
-            this.router.navigate(['home']);
-          }
-        },
-      });
+    if (this.form.valid) {
+      const markup = this.form.controls['editorContent'].value;
+      this.handleVariables(markup);
+      let body: any = {
+        title: this.form.controls['title'].value,
+        description: markup.replace(/<[^>]*>/g, ''),
+        content: markup,
+        sub_category_id: this.form.controls['subcategory'].value.id,
+        variable_ids: this.usedVariableIds,
+      };
+      if (this.type === 'edit' && this.editPost) {
+        body._method = 'PUT';
+        this.postService.updatePost(body, this.postId).subscribe({
+          next: (data: any) => {
+            successMessage('Пост успешно изменен', this.toastr);
+            if (data?.posts?.id) {
+              this.router.navigate(['posts/post/' + data?.posts?.id]);
+            } else {
+              this.router.navigate(['home']);
+            }
+          },
+        });
+      } else {
+        this.postService.createPost(body).subscribe({
+          next: (data: any) => {
+            successMessage('Пост успешно добавлен', this.toastr);
+            if (data?.posts?.id) {
+              this.router.navigate(['posts/post/' + data?.posts?.id]);
+            } else {
+              this.router.navigate(['home']);
+            }
+          },
+          error: (err: any) => {
+            errorMessage(err, this.toastr);
+          },
+        });
+      }
     } else {
-      this.postService.createPost(body).subscribe({
-        next: (data: any) => {
-          successMessage('Пост успешно добавлен', this.toastr);
-          if (data?.posts?.id) {
-            this.router.navigate(['posts/post/' + data?.posts?.id]);
-          } else {
-            this.router.navigate(['home']);
-          }
-        },
-        error: (err: any) => {
-          errorMessage(err, this.toastr);
-        },
-      });
+      validateFormFields(this.form, this.toastr);
     }
   }
 
@@ -319,6 +352,7 @@ export class CreatePostComponent implements OnInit {
     this.postService.getPostById(this.postId).subscribe({
       next: (data: any) => {
         this.editPost = data.posts;
+        this.prefillCategory$.next(this.editPost?.sub_category_id);
         this.form.controls['editorContent'].setValue(this.editPost?.content);
         this.form.controls['title'].setValue(this.editPost?.title);
         this.form.controls['category'].setValue(

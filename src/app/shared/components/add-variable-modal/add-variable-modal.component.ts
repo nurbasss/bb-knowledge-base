@@ -111,8 +111,6 @@ export class AddVariableModalComponent implements OnInit, AfterViewInit {
   }
 
   onCategoryChange(selectedCategory: Category) {
-    console.log(selectedCategory);
-
     this.subcategories = [];
     this.form.controls['subcategory'].setValue(null);
     if (selectedCategory) {

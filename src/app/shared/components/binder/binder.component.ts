@@ -63,13 +63,11 @@ export class BinderComponent implements AfterViewInit, OnDestroy {
     this.factories.forEach(f => {
       const comps = f.create(el);
       compRefs.push(...comps);
-      console.log(f);
       // Here you can make use of compRefs, filter them, etc.
       // to perform any custom operations, if required.
       compRefs
         .filter(c => c.instance instanceof VariableComponent)
         .forEach(c => {
-          console.log(c);
           const id = c.location.nativeElement.attributes['var'].value;
           const variable = this.variables.find(
             (item: any) => item?.id === Number(id)

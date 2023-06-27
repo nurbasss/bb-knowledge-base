@@ -28,22 +28,59 @@
       <img src="./assets/icons/delete.svg" alt="" />
     </div>
   </div>
-  <div class="search-result">
-    <p class="search-result__title mb_24">История поиска</p>
-    <ng-container *ngFor="let result of searchResults; let ind = index">
-      <div class="search-item">
-        <bb-search-result
-          [color]="getColor(ind)"
-          [title]="result.title"
-          [text]="result.text"
-          [rightText]="'1 час назад'"></bb-search-result>
+  <ng-template [ngIf]="searchString.value || isSearchLoading">
+    <bb-loader [loading]="isSearchLoading">
+      <div class="search-result">
+        <!-- <p class="search-result__title mb_24">История поиска</p> -->
+        <p class="search-result__title mb_24">Результат поиска</p>
+        <ng-container *ngFor="let result of searchResults; let ind = index">
+          <div class="search-item">
+            <bb-search-result
+              [color]="getColor(ind)"
+              [title]="result?.title"
+              (navigate)="navigatePost(result?.id)"
+              [rightText]="formatDate(result?.updated_at)"></bb-search-result>
+          </div>
+        </ng-container>
+        <div class="search-not-found" *ngIf="notFound">Не найдено</div>
+        <div
+          class="search-result__more"
+          *ngIf="allSearchResults?.length > 4 && !isSearchPage">
+          <p class="search-result__title">Показать все</p>
+          <span class="icon-arrow"
+            ><img src="./assets/icons/arrow_right_stroke.svg" alt=""
+          /></span>
+        </div>
       </div>
-    </ng-container>
-    <div class="search-result__more">
-      <p class="search-result__title">Показать все</p>
-      <span class="icon-arrow"
-        ><img src="./assets/icons/arrow_right_stroke.svg" alt=""
-      /></span>
-    </div>
-  </div>
+    </bb-loader>
+  </ng-template>
+  <ng-template
+    [ngIf]="(!searchString?.value && historyList?.length) || isHistoryLoading">
+    <bb-loader [loading]="isHistoryLoading">
+      <div class="search-result">
+        <p class="search-result__title mb_24">История поиска</p>
+        <ng-container *ngFor="let history of historyList; let ind = index">
+          <div class="search-item">
+            <bb-search-result
+              [color]="getColor(ind)"
+              [title]="history?.value"
+              [isDelete]="true"
+              (delete)="onHistoryDelete(history)"
+              (navigate)="onHistoryClicked(history?.value)"
+              [rightText]="formatDate(history?.created_at)"></bb-search-result>
+          </div>
+        </ng-container>
+        <div
+          class="search-result__more"
+          *ngIf="allHistoryList?.length > 4 && !isSearchPage">
+          <p class="search-result__title" (click)="showMoreHistory()">
+            Показать все
+          </p>
+          <span class="icon-arrow"
+            ><img src="./assets/icons/arrow_right_stroke.svg" alt=""
+          /></span>
+        </div>
+      </div>
+    </bb-loader>
+  </ng-template>
 </div>

@@ -1,0 +1,27 @@
+<div class="updated-list">
+  <div class="updated-list__header">
+    <h3 class="updated-list__title">Последние обновления / посты</h3>
+  </div>
+  <div class="updated-list__body">
+    <bb-loader [loading]="isListLoading"
+      ><div class="list-item" *ngFor="let item of updatesList; let i = index">
+        <div
+          class="list-item__filled"
+          [ngStyle]="{ backgroundColor: getColor(i + 5) }"></div>
+        <div class="list-item__body">
+          <div class="list-item__header">
+            <div class="list-item__text hover" (click)="navigatePost(item?.id)">
+              {{ item?.title }}
+            </div>
+            <div class="list-item__time">
+              {{ formatDate(item?.updated_at) }}
+            </div>
+          </div>
+          <div
+            class="list-item__description"
+            [innerHTML]="item?.description"></div>
+        </div>
+      </div>
+    </bb-loader>
+  </div>
+</div>

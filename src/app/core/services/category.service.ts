@@ -96,7 +96,7 @@ export class CategoryService {
     if (this.categoryList$.value.length && id) {
       const list = this.categoryList$.value;
       for (let i = 0; i < list.length; i++) {
-        const res = list[i]?.sub_categories.find(sub => sub.id === id);
+        const res = list[i]?.sub_categories.find(sub => sub.id === Number(id));
         if (res) {
           return res;
         }
@@ -106,14 +106,22 @@ export class CategoryService {
   }
 
   getCategoryById(id: any) {
-    return this.categoryList$.value.find(category => category.id === id);
+    return this.categoryList$.value.find(
+      category => category.id === Number(id)
+    );
   }
 
   deleteCategoryById(id: any) {
-    return this.http.post(`${environment.baseUrl + POST_CREATE_CATEGORY}/${id}`, {_method: 'DELETE'})
+    return this.http.post(
+      `${environment.baseUrl + POST_CREATE_CATEGORY}/${id}`,
+      { _method: 'DELETE' }
+    );
   }
 
   deleteSubcategoryById(id: any) {
-    return this.http.post(`${environment.baseUrl + POST_CREATE_SUBCATEGORY}/${id}`, {_method: 'DELETE'})
+    return this.http.post(
+      `${environment.baseUrl + POST_CREATE_SUBCATEGORY}/${id}`,
+      { _method: 'DELETE' }
+    );
   }
 }

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@env/environment';
 import {
+  GET_ALL_POSTS,
   GET_POST_BY_ID,
   GET_POST_VERSION_BY_ID,
   POST_CREATE_POST,
@@ -57,5 +58,9 @@ export class PostService {
     return this.http.post(`${environment.baseUrl + POST_CREATE_POST}/${id}`, {
       _method: 'DELETE',
     });
+  }
+
+  getAllPosts() {
+    return this.http.get(`${environment.baseUrl + GET_ALL_POSTS}`);
   }
 }

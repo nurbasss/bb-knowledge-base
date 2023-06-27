@@ -12,6 +12,7 @@
     height: 50px;
     width: 120px;
     border-radius: 12px;
+    cursor: pointer;
   }
 
   &__title {
@@ -19,14 +20,15 @@
     font-size: $font-size-medium;
     font-weight: $font-weight-medium;
     color: $color-black;
-    letter-spacing: 0.02;
+    letter-spacing: 0.02em;
+    cursor: pointer;
   }
 
   &__text {
     font-size: $font-size-extra-small;
     font-weight: $font-weight-thin;
     color: $color-black;
-    letter-spacing: 0.02;
+    letter-spacing: 0.02em;
 
     &.right {
       text-align: end;

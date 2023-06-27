@@ -2,7 +2,7 @@ import { FormGroup } from '@angular/forms';
 import { NotificationComponent } from '@app/shared/components/notification/notification.component';
 
 export function generateRandomColor(i: number): string {
-  switch (i) {
+  switch (i % 10) {
     case 1:
       return '#ffaaa6';
     case 2:

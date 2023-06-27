@@ -27,7 +27,7 @@
             id="title"
             formControlName="title"
             placeholder="Название" />
-          <label for="postName">Название</label>
+          <label for="title">Название</label>
         </div>
       </div>
       <div class="row">
@@ -37,6 +37,7 @@
             formControlName="category"
             placeholder="Выберите категорию"
             class="base-select"
+            id="category"
             dropdownPosition="bottom"
             notFoundText="Не найдено"
             (change)="onCategoryChange($event)"
@@ -57,6 +58,7 @@
             formControlName="subcategory"
             placeholder="Выберите подкатегорию"
             class="base-select"
+            id="subcategory"
             dropdownPosition="bottom"
             notFoundText="Не найдено"
             [searchable]="true">

@@ -12,7 +12,5 @@ export class VariableComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.value);
-  }
+  ngOnInit(): void {}
 }

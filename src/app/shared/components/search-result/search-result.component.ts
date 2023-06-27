@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'bb-search-result',
@@ -10,8 +10,19 @@ export class SearchResultComponent implements OnInit {
   @Input() text: string = '';
   @Input() rightText: string = '';
   @Input() color: string = '';
+  @Input() isDelete: boolean = false;
+  @Output() delete = new EventEmitter();
+  @Output() navigate = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  onNavigate() {
+    this.navigate.emit(true);
+  }
+
+  onDelete() {
+    this.delete.emit(true);
+  }
 }

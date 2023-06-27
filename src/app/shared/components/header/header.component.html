@@ -13,9 +13,7 @@
         <div class="header__logo" (click)="navigateTo('home')">
           <img src="./assets/icons/logo.svg" alt="logo" />
         </div>
-        <ng-template [ngIf]="showSearch">
-          <bb-header-search></bb-header-search>
-        </ng-template>
+        <bb-header-search></bb-header-search>
       </div>
       <div class="header__top-right">
         <div ngbDropdown>

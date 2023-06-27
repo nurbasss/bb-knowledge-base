@@ -5,6 +5,7 @@ import { errorMessage, successMessage } from '@app/core/helper';
 import { CategoryService } from '@app/core/services/category.service';
 import { Category } from '@app/data/models/category';
 import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'bb-create-category',
@@ -18,7 +19,7 @@ export class CreateCategoryComponent implements OnInit {
   public categories: Category[] = [];
   public editCategory: any;
   public editId: any;
-  public prefillCategoryId: any;
+  public prefillCategoryId$ = new BehaviorSubject<any>(null);
 
   public tags: any[] = [
     { name: 'Тэг 1' },
@@ -44,7 +45,11 @@ export class CreateCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.prefillCategoryId = this.route.queryParams['category'];
+    this.route.queryParams.subscribe((params: any) => {
+      if (params?.category) {
+        this.prefillCategoryId$.next(params?.category);
+      }
+    });
     this.route.params.subscribe(params => {
       this.type = params['type'];
       this.editId = Number(params['id']);
@@ -52,24 +57,19 @@ export class CreateCategoryComponent implements OnInit {
       this.form.reset();
       if (this.type === 'subcategory') {
         this.categoryService.getCategoryList();
-        if (this.editId) {
-          this.isEdit = true;
-          this.edit();
-        }
         this.categoryService.categoryList$.subscribe((data: Category[]) => {
           this.categories = data;
-          const prefilledCategory = this.categories.find(
-            el => this.prefillCategoryId === el?.id
-          );
-          console.log(this.categories);
-          console.log(this.prefillCategoryId);
-          console.log(prefilledCategory);
-
-          this.form.controls['category'].setValue(prefilledCategory);
-
-          console.log(
-            this.categoryService.getCategoryById(this.prefillCategoryId)
-          );
+          if (this.editId) {
+            this.isEdit = true;
+            this.edit();
+          }
+          if (data) {
+            this.prefillCategoryId$.subscribe(id => {
+              if (id) {
+                this.form.controls['category'].setValue(Number(id));
+              }
+            });
+          }
 
           this.changeDetector.detectChanges();
         });
@@ -179,16 +179,10 @@ export class CreateCategoryComponent implements OnInit {
     } else {
       this.editCategory = this.categoryService.getCategoryById(this.editId);
     }
-    console.log(this.type);
-
-    console.log(this.editCategory);
-
     this.form.controls['title'].setValue(this.editCategory?.title);
     this.form.controls['description'].setValue(this.editCategory?.description);
     if (this.type === 'subcategory') {
-      this.form.controls['category'].setValue(
-        this.categoryService.getCategoryById(this.editCategory?.category_id)
-      );
+      this.form.controls['category'].setValue(this.editCategory?.category_id);
     }
     this.changeDetector.detectChanges();
   }

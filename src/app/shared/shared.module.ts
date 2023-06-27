@@ -17,6 +17,7 @@ import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 import { VariableComponent } from './components/variable/variable.component';
 import { BinderComponent } from './components/binder/binder.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
+import { LastUpdatedListComponent } from './components/last-updated-list/last-updated-list.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     VariableComponent,
     BinderComponent,
     ConfirmationModalComponent,
+    LastUpdatedListComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +51,7 @@ import { ConfirmationModalComponent } from './components/confirmation-modal/conf
     LoaderComponent,
     VariableComponent,
     BinderComponent,
+    LastUpdatedListComponent,
   ],
 })
 export class SharedModule {}

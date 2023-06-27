@@ -1,6 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { errorMessage, formateDate, successMessage } from '@app/core/helper';
+import {
+  errorMessage,
+  formateDate,
+  successMessage,
+  warningMessage,
+} from '@app/core/helper';
 import { CategoryService } from '@app/core/services/category.service';
 import { PostService } from '@app/core/services/post.service';
 import { VariableService } from '@app/core/services/variable.service';
@@ -110,16 +115,20 @@ export class PostComponent implements OnInit {
   }
 
   openVersions() {
-    const modalRef = this.modalService.open(PostVersionsComponent, {
-      scrollable: true,
-      modalDialogClass: 'mw-1020',
-      centered: true,
-    });
-    modalRef.componentInstance.postHistoryList = this.postHistory;
-    modalRef.componentInstance.activePost = this.postHistory.find(
-      post => post.is_current === 1
-    );
-    modalRef.componentInstance.users = this.users;
+    if (this.postHistory?.length > 0) {
+      const modalRef = this.modalService.open(PostVersionsComponent, {
+        scrollable: true,
+        modalDialogClass: 'mw-1020',
+        centered: true,
+      });
+      modalRef.componentInstance.postHistoryList = this.postHistory;
+      modalRef.componentInstance.activePost = this.postHistory.find(
+        post => post.is_current === 1
+      );
+      modalRef.componentInstance.users = this.users;
+    } else {
+      warningMessage('История изменений поста отсутсвует', this.toastr);
+    }
   }
 
   getPostVersionById() {
