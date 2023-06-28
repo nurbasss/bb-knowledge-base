@@ -67,6 +67,7 @@
     }
   }
   &-table {
+    overflow: auto;
     table {
       tbody tr {
         td:nth-child(5),

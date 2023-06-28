@@ -20,12 +20,8 @@ export class HeaderSearchComponent implements OnInit {
 
   onKeyPress(event: any) {
     if (event.keyCode === 13) {
-      if (this.results.length === 1) {
-        this.navigateTo(this.results[0]?.route);
-      } else {
-        this.helperService.searchString.next(this.searchString.value);
-        this.navigateTo('home/search');
-      }
+      this.helperService.searchString.next(this.searchString.value);
+      this.navigateTo('home/search');
     }
   }
 

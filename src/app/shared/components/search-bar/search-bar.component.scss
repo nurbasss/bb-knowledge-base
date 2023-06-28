@@ -118,5 +118,10 @@
     &__title {
       font-size: 24px;
     }
+    &__input-icon {
+      &:first-child {
+        margin: 18px 12px;
+      }
+    }
   }
 }
