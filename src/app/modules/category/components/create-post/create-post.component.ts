@@ -326,7 +326,7 @@ export class CreatePostComponent
       this.handleVariables(markup);
       let body: any = {
         title: this.form.controls['title'].value,
-        description: markup.replace(/<[^>]*>/g, ' ') || ' ',
+        description: markup.replace(/<[^>]*>/g, '').slice(0, 250) || ' ',
         content: markup,
         sub_category_id: this.form.controls['subcategory'].value.id,
         variable_ids: this.usedVariableIds,

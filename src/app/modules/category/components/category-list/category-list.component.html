@@ -96,9 +96,9 @@
                       {{ formatDate(item?.updated_at) }}
                     </div>
                   </div>
-                  <div class="list-item__description">
-                    {{ item?.description }}
-                  </div>
+                  <div
+                    class="list-item__description"
+                    [innerHTML]="item?.description"></div>
                 </div>
               </div>
             </ng-template>
