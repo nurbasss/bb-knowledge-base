@@ -1,1 +1,15 @@
-<strong class="variable">{{ value }}</strong>
+<strong
+  class="variable"
+  [ngbTooltip]="varTooltip"
+  container="body"
+  placement="top"
+  >{{ value }}</strong
+>
+<ng-template #varTooltip>
+  <div class="variable-tooltip">
+    <h6>
+      {{ name }}
+    </h6>
+    <p>{{ value }}</p>
+  </div>
+</ng-template>

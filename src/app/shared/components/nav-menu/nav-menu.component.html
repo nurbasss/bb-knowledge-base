@@ -1,0 +1,57 @@
+<ul class="nav-menu" [ngClass]="{ slide: isMenuOpen }">
+  <li class="mb-4">
+    <bb-header-search></bb-header-search>
+  </li>
+  <li class="mb-2">
+    <div ngbDropdown>
+      <div
+        class="header__top-item"
+        role="button"
+        id="createDropdown"
+        ngbDropdownToggle>
+        <img class="header__icon" src="./assets/icons/plus.svg" alt="create" />
+        <p>Создать</p>
+      </div>
+      <div ngbDropdownMenu aria-labelledby="createDropdown">
+        <button ngbDropdownItem (click)="navigateTo('category')">
+          Создать категорию
+        </button>
+        <button ngbDropdownItem (click)="navigateTo('subcategory')">
+          Создать подкатегорию
+        </button>
+        <button ngbDropdownItem (click)="navigateTo('article')">
+          Создать пост
+        </button>
+      </div>
+    </div>
+  </li>
+  <li class="mb-2">
+    <div class="header__top-item" (click)="openToastr()">
+      <img
+        class="header__icon"
+        src="./assets/icons/bell.svg"
+        alt="notifications" />
+    </div>
+  </li>
+  <li class="mb-2">
+    <div ngbDropdown>
+      <div
+        class="header__top-item"
+        role="button"
+        id="userDropdown"
+        ngbDropdownToggle>
+        <img
+          class="header__icon"
+          src="./assets/icons/profile.svg"
+          alt="profile" />
+        <p *ngIf="user">{{ user.name }}</p>
+      </div>
+      <div ngbDropdownMenu aria-labelledby="createDropdown">
+        <button ngbDropdownItem (click)="logout()">Выйти</button>
+      </div>
+    </div>
+  </li>
+  <li>
+    <bb-left-bar></bb-left-bar>
+  </li>
+</ul>

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { errorMessage } from '@app/core/helper';
+import { errorMessage, formateDate } from '@app/core/helper';
 import { HelperService } from '@app/core/services/helper.service';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -35,6 +35,13 @@ export class PostVersionsComponent {
   getUserName(id: any) {
     if (this.users.length) {
       return this.users.find(us => us.id === id)?.name;
+    }
+    return '';
+  }
+
+  formatDate(date: string) {
+    if (date) {
+      return formateDate(date);
     }
     return '';
   }

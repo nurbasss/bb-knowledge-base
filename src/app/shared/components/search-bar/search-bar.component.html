@@ -1,12 +1,12 @@
 <div class="search">
   <div class="search__header">
     <h3 class="search__title">Поиск</h3>
-    <div class="search__filter">
+    <!-- <div class="search__filter">
       <span class="search__filter-icon">
         <img src="./assets/icons/filter.svg" alt="" />
       </span>
       <p class="search__text search__text-gray">фильтры</p>
-    </div>
+    </div> -->
   </div>
   <div class="search__input-wrapper" [ngClass]="{ 'border-green': isFocused }">
     <div class="search__input-icon">
@@ -19,6 +19,7 @@
       placeholder="Введите для поиска"
       (focus)="onFocus()"
       (blur)="onBlur()"
+      id="searchString"
       #search
       (change)="search.value = search.value.trim()" />
     <div
@@ -58,7 +59,15 @@
     [ngIf]="(!searchString?.value && historyList?.length) || isHistoryLoading">
     <bb-loader [loading]="isHistoryLoading">
       <div class="search-result">
-        <p class="search-result__title mb_24">История поиска</p>
+        <div class="search-result__inner">
+          <div>
+            <p class="search-result__title">История поиска</p>
+          </div>
+          <div class="search-result__btn" (click)="clearHistory()">
+            <img src="./assets/icons/delete_urn.svg" alt="" />
+            <p class="search-result__title">Очистить историю</p>
+          </div>
+        </div>
         <ng-container *ngFor="let history of historyList; let ind = index">
           <div class="search-item">
             <bb-search-result

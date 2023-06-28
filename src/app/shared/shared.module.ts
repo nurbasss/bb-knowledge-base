@@ -5,7 +5,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { HeaderSearchComponent } from './components/header-search/header-search.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeftBarComponent } from './components/left-bar/left-bar.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { VariableModalComponent } from './components/variable-modal/variable-modal.component';
@@ -18,6 +18,7 @@ import { VariableComponent } from './components/variable/variable.component';
 import { BinderComponent } from './components/binder/binder.component';
 import { ConfirmationModalComponent } from './components/confirmation-modal/confirmation-modal.component';
 import { LastUpdatedListComponent } from './components/last-updated-list/last-updated-list.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { LastUpdatedListComponent } from './components/last-updated-list/last-up
     BinderComponent,
     ConfirmationModalComponent,
     LastUpdatedListComponent,
+    NavMenuComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { LastUpdatedListComponent } from './components/last-updated-list/last-up
     ReactiveFormsModule,
     NgbModule,
     NgSelectModule,
+    NgbTooltipModule,
   ],
   exports: [
     HeaderComponent,

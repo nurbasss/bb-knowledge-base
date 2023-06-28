@@ -10,7 +10,7 @@ import {
   tap,
   first,
 } from 'rxjs';
-import { LOGIN } from '../constants/apiUrls';
+import { LOGIN, REGISTER } from '../constants/apiUrls';
 import { User } from '@app/data/models/user';
 import { Router } from '@angular/router';
 import { errorMessage } from '../helper';
@@ -50,6 +50,15 @@ export class LoginService {
           errorMessage(error, this.toastr);
         },
       });
+  }
+
+  register(body: any) {
+    return this.http.post<any>(environment.baseUrl + REGISTER, body).subscribe({
+      next: this.setSession,
+      error: (error: any) => {
+        errorMessage(error, this.toastr);
+      },
+    });
   }
 
   logout() {

@@ -9,7 +9,14 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { VariableModalComponent } from '@app/shared/components/variable-modal/variable-modal.component';
-import { BehaviorSubject, Observable, Subscription, first } from 'rxjs';
+import {
+  AsyncSubject,
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscription,
+  first,
+} from 'rxjs';
 import { Variable } from '@app/data/models/variable';
 import { Category, Subcategory } from '@app/data/models/category';
 import { CategoryService } from '@app/core/services/category.service';
@@ -24,6 +31,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImageUploadComponent } from '@app/modules/post/components/image-upload/image-upload.component';
+import { Editor } from 'tinymce';
 
 @Component({
   selector: 'bb-create-post',
@@ -54,6 +62,9 @@ export class CreatePostComponent
   public prefillSubCategory$ = new BehaviorSubject<any>(null);
   public prefillSubscription: Subscription;
 
+  editor: Editor;
+  editorSubject: Subject<any> = new AsyncSubject();
+
   public tags: any[] = [
     { name: 'Тэг 1' },
     { name: 'Тэг 2' },
@@ -64,8 +75,8 @@ export class CreatePostComponent
   init = {
     content_style: '.variable { background-color: yellow; }',
     height: 500,
-    valid_elements:
-      'bb-variable[*],br[*],table[*],tr[*],td[*],th[*],tbody[*],thead[*],tfoot[*],img[*]',
+    extended_valid_elements: 'bb-variable[*]',
+    invalid_elements: 'strong,b,em,i',
     menubar: 'edit view format tools table help',
     // forced_root_block: 'div',
     // force_br_newlines: true,
@@ -74,9 +85,7 @@ export class CreatePostComponent
       //  'noneditable',
       'table',
       'image',
-      'link',
       'advlist',
-      'autolink',
       'lists',
       //'imagetools',
       'charmap',
@@ -88,8 +97,9 @@ export class CreatePostComponent
       'code',
     ],
     toolbar:
-      'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | link | imageButton | chooseVariableButton | addVariableButton |',
+      'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | imageButton | chooseVariableButton | addVariableButton |',
     setup: (editor: any) => {
+      this.editor = editor;
       editor.ui.registry.addButton('chooseVariableButton', {
         text: 'Добавить переменную',
         onAction: () => {
@@ -167,6 +177,13 @@ export class CreatePostComponent
       postTags: [null],
       editorContent: [null, Validators.required],
     });
+  }
+
+  onEditorInit(event: any) {
+    console.log(event);
+
+    this.editorSubject.next(event.editor);
+    this.editorSubject.complete();
   }
 
   override ngOnDestroy(): void {
@@ -309,7 +326,7 @@ export class CreatePostComponent
       this.handleVariables(markup);
       let body: any = {
         title: this.form.controls['title'].value,
-        description: markup.replace(/<[^>]*>/g, ''),
+        description: markup.replace(/<[^>]*>/g, ' ') || ' ',
         content: markup,
         sub_category_id: this.form.controls['subcategory'].value.id,
         variable_ids: this.usedVariableIds,
@@ -385,7 +402,10 @@ export class CreatePostComponent
       if (result) {
         const content = this.form.controls['editorContent'];
         const prev = content.value ? content.value + ' ' : '';
-        const res = `<img src=\"http://${result.replaceAll('//', '/')}\" />`;
+        const res = `<img width=\"400px\" src=\"http://${result.replaceAll(
+          '//',
+          '/'
+        )}\" />`;
         this.dataToInsert.next(res);
         this.variableService.getAllVariables();
       }

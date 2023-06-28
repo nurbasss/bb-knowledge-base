@@ -1,0 +1,38 @@
+:host {
+  position: fixed;
+  display: block;
+  height: 100vh;
+  background: #ccc;
+  margin-left: -500px;
+  transition: all 0.25s ease-in-out;
+  overflow: auto;
+  top: 0;
+  padding: 0;
+  left: 0;
+}
+:host.active {
+  margin-left: 0;
+}
+
+.header {
+  &__top-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  &__icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+ul {
+  list-style: none;
+  overflow: hidden;
+  padding: 16px;
+  padding-top: 24px;
+  margin: 0;
+}
+li {
+  width: 100%;
+}

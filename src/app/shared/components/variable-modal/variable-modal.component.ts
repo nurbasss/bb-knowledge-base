@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 })
 export class VariableModalComponent implements OnInit {
   public variablesList: Variable[] = [];
+  public allVariables: Variable[] = [];
   public searchString = new FormControl();
   public selectedVariable: any;
 
@@ -23,9 +24,12 @@ export class VariableModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.variableService.variablesList$.subscribe((data: Variable[]) => {
-      this.variablesList = data;
+      this.allVariables = [...data];
+      this.variablesList = [...data];
+      this.changeDetector.detectChanges();
       this.changeDetector.detectChanges();
     });
+    this.subscribeSearch();
   }
 
   close() {
@@ -55,6 +59,17 @@ export class VariableModalComponent implements OnInit {
     this.searchString.valueChanges
       .pipe(debounceTime(800), distinctUntilChanged())
       .subscribe((val: string) => {
+        if (val) {
+          this.variablesList = this.allVariables.filter(
+            item =>
+              item?.name?.toLowerCase().includes(val?.toLowerCase()) ||
+              item?.value?.toLowerCase() === val?.toLowerCase()
+          );
+          this.changeDetector.detectChanges();
+        } else {
+          this.variablesList = [...this.allVariables];
+          this.changeDetector.detectChanges();
+        }
         //this.helperService.showSearchDropdown.next(true);
       });
   }

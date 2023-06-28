@@ -20,33 +20,47 @@
           placeholder="Пароль" />
         <label for="password">Пароль</label>
       </div>
-      <div class="login__secondary mb-4">
-        <p>Забыли пароль?</p>
+      <div class="login__secondary mb-4" (click)="onRegisterToggle()">
+        <p>Регистрация</p>
       </div>
       <button class="_btn btn-success" (click)="login()">Продолжить</button>
     </form>
   </ng-template>
   <ng-template [ngIf]="isRegister">
-    <div class="login">
+    <form class="login" [formGroup]="form">
       <h2 class="login__header">Регистрация</h2>
       <div class="form-floating mb-4">
         <input
           type="text"
           class="form-control"
-          id="floatingUsername"
+          id="email"
+          formControlName="email"
+          placeholder="Почта" />
+        <label for="email">Почта</label>
+      </div>
+      <div class="form-floating mb-4">
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          formControlName="username"
           placeholder="Имя пользователя" />
-        <label for="floatingUserName">Имя пользователя</label>
+        <label for="username">Имя пользователя</label>
       </div>
       <div class="form-floating mb-4">
         <input
           type="password"
           class="form-control"
           id="floatingPassword"
+          formControlName="password"
           placeholder="Пароль" />
         <label for="floatingUserName">Пароль</label>
       </div>
-      <button class="_btn btn-success">Продолжить</button>
-    </div>
+      <div class="login__secondary mb-4" (click)="onRegisterToggle()">
+        <p>Уже зарегистрированы?</p>
+      </div>
+      <button class="_btn btn-success" (click)="register()">Продолжить</button>
+    </form>
   </ng-template>
 </div>
 <div class="login__bg"></div>

@@ -13,9 +13,9 @@
         <div class="header__logo" (click)="navigateTo('home')">
           <img src="./assets/icons/logo.svg" alt="logo" />
         </div>
-        <bb-header-search></bb-header-search>
+        <bb-header-search class="desk"></bb-header-search>
       </div>
-      <div class="header__top-right">
+      <div class="header__top-right desk">
         <div ngbDropdown>
           <div
             class="header__top-item"
@@ -63,6 +63,12 @@
             <button ngbDropdownItem (click)="logout()">Выйти</button>
           </div>
         </div>
+      </div>
+      <div class="header__top-right mobile">
+        <div class="mobile__icon" (click)="m.toggle($event)">
+          <img src="./assets/icons/burger.svg" alt="nav" />
+        </div>
+        <bb-nav-menu #m></bb-nav-menu>
       </div>
     </div>
   </div>

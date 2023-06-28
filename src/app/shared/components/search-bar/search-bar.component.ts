@@ -6,6 +6,7 @@ import {
   errorMessage,
   formateDate,
   generateRandomColor,
+  successMessage,
 } from '@app/core/helper';
 import { Subscription, debounceTime, distinctUntilChanged, first } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
@@ -55,8 +56,7 @@ export class SearchBarComponent
           .pipe(first())
           .subscribe((data: string) => {
             this.searchString.setValue(data);
-            console.log(data);
-
+            document.getElementById('searchString').focus();
             if (data) {
               this.searchPost(data);
             }
@@ -83,7 +83,7 @@ export class SearchBarComponent
 
     this.addSubscriber(
       this.searchString.valueChanges
-        .pipe(debounceTime(500), distinctUntilChanged())
+        .pipe(debounceTime(300), distinctUntilChanged())
         .subscribe((data: any) => {
           if (data) {
             if (this.searchSubscription) {
@@ -103,11 +103,6 @@ export class SearchBarComponent
   cleanInput() {
     this.searchString.setValue('');
     this.changeDetector.detectChanges();
-    this.addSubscriber(
-      this.searchService.clearHistory().subscribe(data => {
-        console.log(data);
-      })
-    );
   }
 
   onFocus() {
@@ -192,5 +187,14 @@ export class SearchBarComponent
     }
   }
 
-  onHistoryDelete(item: any) {}
+  clearHistory() {
+    this.addSubscriber(
+      this.searchService.clearHistory().subscribe(data => {
+        this.historyList = [];
+        this.allHistoryList = [];
+        this.changeDetector.detectChanges();
+        successMessage('История поиска успешно удалена', this.toastr);
+      })
+    );
+  }
 }

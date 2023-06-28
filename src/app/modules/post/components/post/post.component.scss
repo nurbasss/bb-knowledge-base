@@ -11,6 +11,7 @@
     justify-content: space-between;
     color: $color-green-dark;
     border-bottom: 1px $color-gray-main solid;
+    flex-wrap: wrap;
 
     &__right,
     &__left {

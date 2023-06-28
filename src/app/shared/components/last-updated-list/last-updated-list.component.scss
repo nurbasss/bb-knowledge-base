@@ -70,3 +70,28 @@
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  .updated-list {
+    &__body {
+      padding: 24px;
+    }
+    &__header {
+      padding: 16px 24px;
+    }
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .updated-list {
+    &__title {
+      font-size: 24px;
+    }
+    &__body {
+      padding: 16px;
+    }
+    &__header {
+      padding: 16px;
+    }
+  }
+}

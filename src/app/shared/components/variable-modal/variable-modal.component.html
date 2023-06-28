@@ -17,7 +17,6 @@
         class="search__input"
         placeholder="Поиск"
         [formControl]="searchString"
-        (keyup)="onKeyPress($event)"
         #searchInput
         (change)="searchInput.value = searchInput.value.trim()" />
     </div>

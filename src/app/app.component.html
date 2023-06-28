@@ -6,7 +6,9 @@
         <bb-left-bar></bb-left-bar>
       </div>
     </ng-template>
-    <div [ngClass]="helperService.isShowLeftBar() ? 'col-9' : 'col-12'">
+    <div
+      class="col-sm-12"
+      [ngClass]="helperService.isShowLeftBar() ? 'col-md-9' : 'col-12'">
       <router-outlet></router-outlet>
     </div>
   </div>

@@ -1,5 +1,6 @@
 //auth
 export const LOGIN = '/login';
+export const REGISTER = '/register';
 
 //categories
 export const GET_CATEGORIES = '/categories';

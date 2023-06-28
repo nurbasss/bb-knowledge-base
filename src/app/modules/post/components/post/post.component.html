@@ -1,6 +1,6 @@
 <!-- <bb-loader [loading]="isPostLoading"> -->
 <div class="row">
-  <div class="col-9">
+  <div class="col-md-9 col-sm-12 mb_24">
     <!-- <div class="container-wrapper"> -->
     <div class="post">
       <div class="post-header">
@@ -73,7 +73,7 @@
     </div>
     <!-- </div> -->
   </div>
-  <div class="col-3">
+  <div class="col-md-3 col-sm-12">
     <div class="info">
       <div class="info-header">
         <p class="info-title">Информация</p>
@@ -88,24 +88,18 @@
           <p class="info-text">{{ formatDate(this.post?.created_at) }}</p>
         </div>
         <div class="info-item">
+          <p class="info-subtitle">Последний редактор</p>
+          <ul>
+            <li>
+              <p class="info-text">{{ getUserName(this.post?.updated_by) }}</p>
+            </li>
+          </ul>
+        </div>
+        <div class="info-item">
           <p class="info-subtitle">Последнее изменение</p>
           <!-- <p class="info-text">{{ getUserName(this.post?.updated_by) }}</p> -->
           <p class="info-text">{{ formatDate(this.post?.updated_at) }}</p>
         </div>
-        <!-- <div class="info-item">
-          <p class="info-subtitle">Редакторы</p>
-          <ul>
-            <li>
-              <p class="info-text">Джонибек Деп</p>
-            </li>
-            <li>
-              <p class="info-text">Биллион Гейтс</p>
-            </li>
-            <li>
-              <p class="info-text">Иван Иванов</p>
-            </li>
-          </ul>
-        </div> -->
       </div>
     </div>
   </div>

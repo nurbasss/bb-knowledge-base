@@ -88,8 +88,10 @@
     </div>
   </div>
   <p class="create-post__subtitle">Текст поста</p>
+  <bb-loader [loading]="(editorSubject | async) === null"></bb-loader>
   <div class="create-post__editor">
     <editor
+      (onInit)="onEditorInit($event)"
       apiKey="jk8cihs8koq4u4ir3ja4r0so6wihe0qlqyazbw4wxp5tzlvm"
       initialValue=""
       formControlName="editorContent"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { errorMessage, successMessage } from '@app/core/helper';
 import { VariableService } from '@app/core/services/variable.service';
@@ -17,51 +17,24 @@ import { distinctUntilChanged } from 'rxjs/internal/operators/distinctUntilChang
 })
 export class AllVariablesComponent implements OnInit {
   public searchString = new FormControl();
-  // public variablesList: any[] = [
-  //   {
-  //     category: 'Депозит',
-  //     subcategory: 'Депозит Физ. лиц',
-  //     name: 'Остаток KZT',
-  //     value: '1000',
-  //   },
-  //   {
-  //     category: 'Переводы',
-  //     subcategory: 'Переводы Физ. лиц',
-  //     name: 'Лимит для переводов',
-  //     value: '100000000',
-  //   },
-  //   {
-  //     category: 'Депозит',
-  //     subcategory: 'Депозит Физ. лиц',
-  //     name: 'Остаток USD',
-  //     value: '5',
-  //   },
-  //   {
-  //     category: 'Кредит',
-  //     subcategory: 'Кредит Физ. лиц',
-  //     name: 'Процентная ставка',
-  //     value: '14,1%',
-  //   },
-  //   {
-  //     category: 'Карта',
-  //     subcategory: 'Карты Физ. лиц',
-  //     name: 'Лимит на количество',
-  //     value: '6',
-  //   },
-  // ];
   public variablesList: Variable[] = [];
+  public allVariables: Variable[] = [];
 
   constructor(
     public variableService: VariableService,
     private modalService: NgbModal,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private changeDetector: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.variableService.getAllVariables();
-    this.variableService.variablesList$.subscribe(
-      (data: Variable[]) => (this.variablesList = [...data])
-    );
+    this.variableService.variablesList$.subscribe((data: Variable[]) => {
+      this.allVariables = [...data];
+      this.variablesList = [...data];
+      this.changeDetector.detectChanges();
+    });
+    this.subscribeSearch();
   }
 
   createVariable() {
@@ -86,6 +59,17 @@ export class AllVariablesComponent implements OnInit {
     this.searchString.valueChanges
       .pipe(debounceTime(800), distinctUntilChanged())
       .subscribe((val: string) => {
+        if (val) {
+          this.variablesList = this.allVariables.filter(
+            item =>
+              item?.name?.toLowerCase().includes(val?.toLowerCase()) ||
+              item?.value?.toLowerCase() === val?.toLowerCase()
+          );
+          this.changeDetector.detectChanges();
+        } else {
+          this.variablesList = [...this.allVariables];
+          this.changeDetector.detectChanges();
+        }
         //this.helperService.showSearchDropdown.next(true);
       });
   }

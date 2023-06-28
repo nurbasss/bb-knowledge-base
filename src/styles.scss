@@ -87,3 +87,18 @@ ol {
   top: 24px;
   right: 24px;
 }
+
+img {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .container-wrapper {
+    padding: 24px;
+  }
+}
+@media screen and (max-width: 568px) {
+  .container-wrapper {
+    padding: 16px;
+  }
+}
